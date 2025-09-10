@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Tiếng Anh Cùng Nguyễn Duyên - IELTS Listening</title>
+    <title>Học Tiếng Anh Cùng Nguyễn Duyên - IELTS Listening & Vocabulary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,13 +13,13 @@
             background-color: #fff0f5;
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
-        .page-content, .dictation-exercise-content, #chapter-selection {
+        .page-content, .dictation-exercise-content, #chapter-selection, #vocab-test-page {
             display: none;
         }
-        .chapter-card {
+        .main-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .chapter-card:hover {
+        .main-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
@@ -58,6 +58,19 @@
             border-color: #3b82f6;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
         }
+        #vocab-timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8">
@@ -68,41 +81,59 @@
             <p class="text-lg text-gray-600 mt-2">Luyện Tập Vui Vẻ Nhé Mặc Dù Biết Bạn Đang Rất Nản</p>
         </header>
         
-        <!-- New Main Page Selection -->
         <div id="page-selection" style="display: block;" class="relative pb-24">
-            <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Sách Luyện Tập</h2>
-            <div class="flex justify-center">
-                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showChapters()">
+            <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Chọn Mục Luyện Tập</h2>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-8">
+                <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showChapters()">
                     <h3 class="text-2xl font-bold text-green-700 mb-2">HACKER IELTS Listening Book</h3>
-                    <p class="text-gray-600">Bắt đầu làm bài tập</p>
+                    <p class="text-gray-600">Bắt đầu làm bài tập nghe</p>
+                </div>
+                 <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showPage('vocab-test-page')">
+                    <h3 class="text-2xl font-bold text-yellow-700 mb-2">Kiểm Tra Từ Vựng</h3>
+                    <p class="text-gray-600">Làm bài kiểm tra từ vựng ngẫu nhiên</p>
                 </div>
             </div>
-             <!-- Fun images in the corners -->
-            <img src="anh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-0 left-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
+             <img src="anh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-0 left-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
             <img src="anh/Thang 9.jpg" alt="Fun character" class="absolute bottom-0 right-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
         </div>
         
-        <!-- Chapter Selection -->
         <div id="chapter-selection">
             <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showHome()">
                 &larr; Quay lại Trang chủ
             </button>
             <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Chọn một chương để bắt đầu</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <!-- Chapter 1 Card -->
-                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('chapter1')">
+                <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('chapter1')">
                     <h3 class="text-2xl font-bold text-blue-700 mb-2">Chapter 1</h3>
                     <p class="text-gray-600">Multiple Choice & Fill in the Blanks</p>
                 </div>
-                 <!-- Dictation Chapter 1 Card -->
-                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('dictation1')">
+                 <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('dictation1')">
                     <h3 class="text-2xl font-bold text-purple-700 mb-2">Dictation Chapter 1</h3>
                     <p class="text-gray-600">Luyện nghe chép chính tả</p>
                 </div>
             </div>
         </div>
 
-        <!-- Chapter 1 Content -->
+        <div id="vocab-test-page" class="page-content">
+             <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showHome()">
+                &larr; Quay lại Trang chủ
+            </button>
+            <div id="vocab-start-container" class="text-center">
+                <h2 class="text-2xl font-bold mb-4 text-gray-700">Bài Kiểm Tra Từ Vựng</h2>
+                <p class="mb-6 text-gray-600">Bạn sẽ có <b>20 phút</b> để hoàn thành <b>150 câu hỏi</b> ngẫu nhiên.</p>
+                <p class="mb-8 text-gray-600">Nhấn nút bên dưới để bắt đầu. Đồng hồ sẽ bắt đầu đếm ngược ngay lập tức.</p>
+                <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors" onclick="startVocabTest()">Bắt Đầu Kiểm Tra</button>
+            </div>
+            <div id="vocab-quiz-container" class="hidden">
+                 <div id="vocab-timer">20:00</div>
+                 <div id="vocab-questions" class="space-y-3"></div>
+                 <div class="text-center mt-8">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors" onclick="checkVocabAnswers()">Nộp Bài</button>
+                 </div>
+            </div>
+            <div id="vocab-results-container"></div>
+        </div>
+
         <div id="chapter1" class="page-content">
             <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showChapters()">
                 &larr; Quay lại Chọn Chương
@@ -236,42 +267,40 @@
 
         </div>
 
-        <!-- Dictation Chapter 1 Content -->
         <div id="dictation1" class="page-content">
              <div id="dictation1-list">
-                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showChapters()">
+                 <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showChapters()">
                     &larr; Quay lại Chọn Chương
                 </button>
                 <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Dictation Chapter 1: Chọn bài tập</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp1-4')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp1-4')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP1-4</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp5-7')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp5-7')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP5-7</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp8-11')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp8-11')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP8-11</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp12-16')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp12-16')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP12-16</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp17-20')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp17-20')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP17-20</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp21-25')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp21-25')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP21-25</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht1-10')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht1-10')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HT1-10</h3>
                     </div>
-                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht11-20')">
+                    <div class="main-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht11-20')">
                         <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HT11-20</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Individual Dictation Exercises for Chapter 1 -->
             <div id="dictation-ch1-hp1-4" class="dictation-exercise-content">
                 <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
                 <div class="question-card">
@@ -297,8 +326,8 @@
                          <p><b>M:</b> Alex Fenway. F-E-N-W-A-Y. And my mobile <input type="text" class="fill-in-blank" data-answer="number"> is 555 671 920.</p>
                          <p><b>W:</b> Thank you, Alex. On the day of the tour, there will be a guide at Central Station to meet you. The guide will be <input type="text" class="fill-in-blank" data-answer="holding"> a large sign and wearing a T-shirt with Sunwave Tours printed on it.</p>
                          <p><b>M:</b> Great. Thanks for all your <input type="text" class="fill-in-blank" data-answer="help">.</p>
-                      </div>
-                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -311,22 +340,22 @@
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
                          <p>
-                             Good <input type="text" class="fill-in-blank" data-answer="afternoon">. Thanks for <input type="text" class="fill-in-blank" data-answer="listening"> to today's <input type="text" class="fill-in-blank" data-answer="broadcast"> of 'Smart Shopping'. As we head into the winter season, many of you will be <input type="text" class="fill-in-blank" data-answer="travelling"> out of the country for your annual <input type="text" class="fill-in-blank" data-answer="holidays">. And while away, you're likely to buy some <input type="text" class="fill-in-blank" data-answer="souvenirs"> to bring back with you. On today's <input type="text" class="fill-in-blank" data-answer="programme">, I'm going to give you some tips on what to be <input type="text" class="fill-in-blank" data-answer="cautious"> of and how to make good <input type="text" class="fill-in-blank" data-answer="purchases"> while abroad.
+                              Good <input type="text" class="fill-in-blank" data-answer="afternoon">. Thanks for <input type="text" class="fill-in-blank" data-answer="listening"> to today's <input type="text" class="fill-in-blank" data-answer="broadcast"> of 'Smart Shopping'. As we head into the winter season, many of you will be <input type="text" class="fill-in-blank" data-answer="travelling"> out of the country for your annual <input type="text" class="fill-in-blank" data-answer="holidays">. And while away, you're likely to buy some <input type="text" class="fill-in-blank" data-answer="souvenirs"> to bring back with you. On today's <input type="text" class="fill-in-blank" data-answer="programme">, I'm going to give you some tips on what to be <input type="text" class="fill-in-blank" data-answer="cautious"> of and how to make good <input type="text" class="fill-in-blank" data-answer="purchases"> while abroad.
                          </p>
                          <p>
-                             So, my first point is about <input type="text" class="fill-in-blank" data-answer="payment">. Tourists from the UK are mainly <input type="text" class="fill-in-blank" data-answer="accustomed"> to pulling out a credit card and charging just about <input type="text" class="fill-in-blank" data-answer="everything">. Well, that's not such a good idea when <input type="text" class="fill-in-blank" data-answer="overseas"> for two <input type="text" class="fill-in-blank" data-answer="reasons">. First, there is a lot of credit card <input type="text" class="fill-in-blank" data-answer="fraud">. Credit card usage is simply not <input type="text" class="fill-in-blank" data-answer="secure">. Secondly, the seller will have to <input type="text" class="fill-in-blank" data-answer="charge"> you anywhere between 3 and 5% more in credit card fees that they must pay to credit card <input type="text" class="fill-in-blank" data-answer="companies">. So, use cash if at all <input type="text" class="fill-in-blank" data-answer="possible">.
+                              So, my first point is about <input type="text" class="fill-in-blank" data-answer="payment">. Tourists from the UK are mainly <input type="text" class="fill-in-blank" data-answer="accustomed"> to pulling out a credit card and charging just about <input type="text" class="fill-in-blank" data-answer="everything">. Well, that's not such a good idea when <input type="text" class="fill-in-blank" data-answer="overseas"> for two <input type="text" class="fill-in-blank" data-answer="reasons">. First, there is a lot of credit card <input type="text" class="fill-in-blank" data-answer="fraud">. Credit card usage is simply not <input type="text" class="fill-in-blank" data-answer="secure">. Secondly, the seller will have to <input type="text" class="fill-in-blank" data-answer="charge"> you anywhere between 3 and 5% more in credit card fees that they must pay to credit card <input type="text" class="fill-in-blank" data-answer="companies">. So, use cash if at all <input type="text" class="fill-in-blank" data-answer="possible">.
                          </p>
                          <p>
-                             And that brings me to my next word of <input type="text" class="fill-in-blank" data-answer="advice">; check the exchange rates offered for your <input type="text" class="fill-in-blank" data-answer="currency"> before making payments by cash or even credit cards. Some <input type="text" class="fill-in-blank" data-answer="establishments"> offer poor rates, so it is better to exchange your money in a bank which ensures better rates, and use local currency in those cases.
+                              And that brings me to my next word of <input type="text" class="fill-in-blank" data-answer="advice">; check the exchange rates offered for your <input type="text" class="fill-in-blank" data-answer="currency"> before making payments by cash or even credit cards. Some <input type="text" class="fill-in-blank" data-answer="establishments"> offer poor rates, so it is better to exchange your money in a bank which ensures better rates, and use local currency in those cases.
                          </p>
                          <p>
-                             Also, it is always a good idea to get tax <input type="text" class="fill-in-blank" data-answer="refunds"> for your purchases when possible, as it can save you a lot of money. International travellers are often <input type="text" class="fill-in-blank" data-answer="eligible"> for these refunds in many locations and won't have to pay taxes on the items they buy. Find out ahead of time what the minimum purchase amount is and what types of purchases are eligible. And don't forget to claim your refunds at your point of <input type="text" class="fill-in-blank" data-answer="departure"> before checking in, as you may have to show the purchases to agents along with original receipts.
+                              Also, it is always a good idea to get tax <input type="text" class="fill-in-blank" data-answer="refunds"> for your purchases when possible, as it can save you a lot of money. International travellers are often <input type="text" class="fill-in-blank" data-answer="eligible"> for these refunds in many locations and won't have to pay taxes on the items they buy. Find out ahead of time what the minimum purchase amount is and what types of purchases are eligible. And don't forget to claim your refunds at your point of <input type="text" class="fill-in-blank" data-answer="departure"> before checking in, as you may have to show the purchases to agents along with original receipts.
                          </p>
                          <p>
-                             But there are many items that you are not permitted to transport on planes or trains. So, I also want to cover...
+                              But there are many items that you are not permitted to transport on planes or trains. So, I also want to cover...
                          </p>
-                      </div>
-                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -338,26 +367,26 @@
                      <audio controls class="w-full mb-4"><source src="CH1_HP8-11.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
-                        <p>
-                             Welcome, everyone, to Devils Tower National <input type="text" class="fill-in-blank" data-answer="Monument">. Not only can you view the famous Devils Tower rock <input type="text" class="fill-in-blank" data-answer="formation">, but there are lots of great routes for <input type="text" class="fill-in-blank" data-answer="hiking"> and rock-climbing here in the park. If you are interested, you can ask about those <input type="text" class="fill-in-blank" data-answer="activities"> at our climbing office. You'll find it conveniently <input type="text" class="fill-in-blank" data-answer="located"> between our visitor centre and gift shop.
+                         <p>
+                              Welcome, everyone, to Devils Tower National <input type="text" class="fill-in-blank" data-answer="Monument">. Not only can you view the famous Devils Tower rock <input type="text" class="fill-in-blank" data-answer="formation">, but there are lots of great routes for <input type="text" class="fill-in-blank" data-answer="hiking"> and rock-climbing here in the park. If you are interested, you can ask about those <input type="text" class="fill-in-blank" data-answer="activities"> at our climbing office. You'll find it conveniently <input type="text" class="fill-in-blank" data-answer="located"> between our visitor centre and gift shop.
                          </p>
                          <p>
-                             Now, Devils Tower is <input type="text" class="fill-in-blank" data-answer="situated"> in the picturesque Black Hills here in Wyoming. The formation itself is very <input type="text" class="fill-in-blank" data-answer="imposing">, standing at 867 feet, or 265 metres, from the base to the <input type="text" class="fill-in-blank" data-answer="summit">. To local Native Americans, this is a <input type="text" class="fill-in-blank" data-answer="significant"> site. Because of that and its striking beauty, Devils Tower was made an official national monument over a <input type="text" class="fill-in-blank" data-answer="century"> ago. Since then, it has become a popular <input type="text" class="fill-in-blank" data-answer="destination"> amongst rock climbers.
+                              Now, Devils Tower is <input type="text" class="fill-in-blank" data-answer="situated"> in the picturesque Black Hills here in Wyoming. The formation itself is very <input type="text" class="fill-in-blank" data-answer="imposing">, standing at 867 feet, or 265 metres, from the base to the <input type="text" class="fill-in-blank" data-answer="summit">. To local Native Americans, this is a <input type="text" class="fill-in-blank" data-answer="significant"> site. Because of that and its striking beauty, Devils Tower was made an official national monument over a <input type="text" class="fill-in-blank" data-answer="century"> ago. Since then, it has become a popular <input type="text" class="fill-in-blank" data-answer="destination"> amongst rock climbers.
                          </p>
                          <p>
-                             So how did the rock formation get its unusual <input type="text" class="fill-in-blank" data-answer="name">? You might think it's because it can be <input type="text" class="fill-in-blank" data-answer="dangerous"> to hike up or climb. Actually, explorer Colonel Richard Irving led an <input type="text" class="fill-in-blank" data-answer="expedition"> to the area in 1875. His interpreter is said to have made an <input type="text" class="fill-in-blank" data-answer="error"> translating the native language, and said the unusual formation was named 'Bad God's Tower.' Irving took that to mean the Devil's Tower ... but many native people say that the formation was probably <input type="text" class="fill-in-blank" data-answer="originally"> called 'Bear Tower' or 'Bear's Lodge.'
+                              So how did the rock formation get its unusual <input type="text" class="fill-in-blank" data-answer="name">? You might think it's because it can be <input type="text" class="fill-in-blank" data-answer="dangerous"> to hike up or climb. Actually, explorer Colonel Richard Irving led an <input type="text" class="fill-in-blank" data-answer="expedition"> to the area in 1875. His interpreter is said to have made an <input type="text" class="fill-in-blank" data-answer="error"> translating the native language, and said the unusual formation was named 'Bad God's Tower.' Irving took that to mean the Devil's Tower ... but many native people say that the formation was probably <input type="text" class="fill-in-blank" data-answer="originally"> called 'Bear Tower' or 'Bear's Lodge.'
                          </p>
                          <p>
-                             Anyway, what are we all going to see and do at the park today? First, we are going to take a short hike up to a <input type="text" class="fill-in-blank" data-answer="ridge"> that will offer you <input type="text" class="fill-in-blank" data-answer="panoramic"> views of the tower and the park. The route we will be taking is called the Joyner Ridge Trail, and it is a marked loop that's a mile and a half long. Just a few safety <input type="text" class="fill-in-blank" data-answer="reminders"> before we head out on the trail. First, please watch your step during our hike as the trail we are taking is <input type="text" class="fill-in-blank" data-answer="unpaved">. Also, please be reminded that food is only <input type="text" class="fill-in-blank" data-answer="permitted"> in specified areas that are marked with signs, and it is <input type="text" class="fill-in-blank" data-answer="vital"> that you do not feed animals you may encounter in the park.
+                              Anyway, what are we all going to see and do at the park today? First, we are going to take a short hike up to a <input type="text" class="fill-in-blank" data-answer="ridge"> that will offer you <input type="text" class="fill-in-blank" data-answer="panoramic"> views of the tower and the park. The route we will be taking is called the Joyner Ridge Trail, and it is a marked loop that's a mile and a half long. Just a few safety <input type="text" class="fill-in-blank" data-answer="reminders"> before we head out on the trail. First, please watch your step during our hike as the trail we are taking is <input type="text" class="fill-in-blank" data-answer="unpaved">. Also, please be reminded that food is only <input type="text" class="fill-in-blank" data-answer="permitted"> in specified areas that are marked with signs, and it is <input type="text" class="fill-in-blank" data-answer="vital"> that you do not feed animals you may encounter in the park.
                          </p>
                          <p>
-                             After our hike, I'll take you to the visitor centre where you can check out our <input type="text" class="fill-in-blank" data-answer="displays"> and browse through souvenirs in our gift shop.
+                              After our hike, I'll take you to the visitor centre where you can check out our <input type="text" class="fill-in-blank" data-answer="displays"> and browse through souvenirs in our gift shop.
                          </p>
                          <p>
-                             OK. So, could you all please come this way?
+                              OK. So, could you all please come this way?
                          </p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -389,8 +418,8 @@
                          <p><span class="speaker">W:</span> Definitely. The type of psychology they teach is very similar to <input type="text" class="fill-in-blank" data-answer="statistics">, lots of numbers, data and stuff like that. Far less of the <input type="text" class="fill-in-blank" data-answer="theory"> and discussion we had in the UK and more science based work, so it's a different sort of challenge. But it <input type="text" class="fill-in-blank" data-answer="appealed"> to me, that's why I chose psychometrics...</p>
                          <p><span class="speaker">M:</span> Oh, that makes sense. I'm actually hoping to take some data <input type="text" class="fill-in-blank" data-answer="analysis"> courses if I take part in the programme too. It would help with my minor in <input type="text" class="fill-in-blank" data-answer="psycholinguistics">.</p>
                          <p><span class="speaker">W:</span> Speaking of which, I have some information about data courses in Singapore. Let's head to...</p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -402,7 +431,7 @@
                      <audio controls class="w-full mb-4"><source src="CH1_HP17-20.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
-                        <p><span class="speaker">W:</span> Erm... Professor Brown, I'm hoping to <input type="text" class="fill-in-blank" data-answer="participate"> in the National Car Technology Competition.</p>
+                         <p><span class="speaker">W:</span> Erm... Professor Brown, I'm hoping to <input type="text" class="fill-in-blank" data-answer="participate"> in the National Car Technology Competition.</p>
                          <p><span class="speaker">M:</span> Certainly, Alice. The idea <input type="text" class="fill-in-blank" data-answer="submission"> deadline is next Thursday, though. Do you already have an idea in mind?</p>
                          <p><span class="speaker">W:</span> Oh, I have a couple of ideas. One is for a <input type="text" class="fill-in-blank" data-answer="biometric"> access system. This would allow only particular users to unlock, start, and drive the vehicle by using <input type="text" class="fill-in-blank" data-answer="sensors">.</p>
                          <p><span class="speaker">M:</span> Interesting idea. How would that work exactly?</p>
@@ -419,8 +448,8 @@
                          <p><span class="speaker">W:</span> That's exactly what I was going to enquire about next. Actually, would you have some time to meet either today or Tuesday to provide me with some <input type="text" class="fill-in-blank" data-answer="guidance"> on how to <input type="text" class="fill-in-blank" data-answer="draft"> the proposal?</p>
                          <p><span class="speaker">M:</span> Certainly. I'll be <input type="text" class="fill-in-blank" data-answer="available"> at my office after 4pm this Tuesday. See you then?</p>
                          <p><span class="speaker">W:</span> Great, I'll come by your office at 4.30 on Tuesday. Thanks.</p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -433,22 +462,22 @@
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
                          <p>
-                             So, as we discussed last time, sugar is the <input type="text" class="fill-in-blank" data-answer="culprit"> for a variety of ailments. Not only is it an <input type="text" class="fill-in-blank" data-answer="addictive"> substance, but it is a direct cause for <input type="text" class="fill-in-blank" data-answer="diabetes">, the rates of which have never been higher. In addition to that, it also contributes to heart disease, <input type="text" class="fill-in-blank" data-answer="obesity">, and mood disorders. And those health issues are also rising at an alarming rate. The problem is that people are <input type="text" class="fill-in-blank" data-answer="consuming"> more sugar than we even realise. So, how can we reduce our <input type="text" class="fill-in-blank" data-answer="intake"> and avoid a variety of health issues?
+                              So, as we discussed last time, sugar is the <input type="text" class="fill-in-blank" data-answer="culprit"> for a variety of ailments. Not only is it an <input type="text" class="fill-in-blank" data-answer="addictive"> substance, but it is a direct cause for <input type="text" class="fill-in-blank" data-answer="diabetes">, the rates of which have never been higher. In addition to that, it also contributes to heart disease, <input type="text" class="fill-in-blank" data-answer="obesity">, and mood disorders. And those health issues are also rising at an alarming rate. The problem is that people are <input type="text" class="fill-in-blank" data-answer="consuming"> more sugar than we even realise. So, how can we reduce our <input type="text" class="fill-in-blank" data-answer="intake"> and avoid a variety of health issues?
                          </p>
                          <p>
-                             Well, first, it is important to read through <input type="text" class="fill-in-blank" data-answer="ingredients"> on manufactured products. And be aware that sugar has different names; <input type="text" class="fill-in-blank" data-answer="sucrose">, glucose, and fructose, just to name a few. So, when advising patients, it is naturally best to tell them to avoid products with added sugar. And use sweeteners that are as <input type="text" class="fill-in-blank" data-answer="natural"> as possible and stay away from <input type="text" class="fill-in-blank" data-answer="processed"> sugar. Something like honey provides sweetness, and is better for <input type="text" class="fill-in-blank" data-answer="digestion"> than refined sugar, as it allows <input type="text" class="fill-in-blank" data-answer="nutrients"> to be absorbed more easily. It also contains fewer empty <input type="text" class="fill-in-blank" data-answer="calories"> than sugar. If the taste of honey is too diverse and processed sugar is preferred, then it is better to use it in its <input type="text" class="fill-in-blank" data-answer="raw"> state, such as brown sugar, while common white table sugar should be <input type="text" class="fill-in-blank" data-answer="eliminated">.
+                              Well, first, it is important to read through <input type="text" class="fill-in-blank" data-answer="ingredients"> on manufactured products. And be aware that sugar has different names; <input type="text" class="fill-in-blank" data-answer="sucrose">, glucose, and fructose, just to name a few. So, when advising patients, it is naturally best to tell them to avoid products with added sugar. And use sweeteners that are as <input type="text" class="fill-in-blank" data-answer="natural"> as possible and stay away from <input type="text" class="fill-in-blank" data-answer="processed"> sugar. Something like honey provides sweetness, and is better for <input type="text" class="fill-in-blank" data-answer="digestion"> than refined sugar, as it allows <input type="text" class="fill-in-blank" data-answer="nutrients"> to be absorbed more easily. It also contains fewer empty <input type="text" class="fill-in-blank" data-answer="calories"> than sugar. If the taste of honey is too diverse and processed sugar is preferred, then it is better to use it in its <input type="text" class="fill-in-blank" data-answer="raw"> state, such as brown sugar, while common white table sugar should be <input type="text" class="fill-in-blank" data-answer="eliminated">.
                          </p>
                          <p>
-                             And it's also important to not drink sugars. People don't realise the enormous sugar content in a soft drink, and even fruit <input type="text" class="fill-in-blank" data-answer="juices"> have a very high <input type="text" class="fill-in-blank" data-answer="concentration"> of sugar as well as high caloric intake. <input type="text" class="fill-in-blank" data-answer="Water">, of course, is the number one <input type="text" class="fill-in-blank" data-answer="fluid"> we should consume. But I believe herbal <input type="text" class="fill-in-blank" data-answer="teas"> are another great option, because they give you some flavour, and they can offer extra <input type="text" class="fill-in-blank" data-answer="vitamins"> that are good for us.
+                              And it's also important to not drink sugars. People don't realise the enormous sugar content in a soft drink, and even fruit <input type="text" class="fill-in-blank" data-answer="juices"> have a very high <input type="text" class="fill-in-blank" data-answer="concentration"> of sugar as well as high caloric intake. <input type="text" class="fill-in-blank" data-answer="Water">, of course, is the number one <input type="text" class="fill-in-blank" data-answer="fluid"> we should consume. But I believe herbal <input type="text" class="fill-in-blank" data-answer="teas"> are another great option, because they give you some flavour, and they can offer extra <input type="text" class="fill-in-blank" data-answer="vitamins"> that are good for us.
                          </p>
                          <p>
-                             Another thing to avoid is manufactured food products that are labelled '<input type="text" class="fill-in-blank" data-answer="fat-free">'. Often, to make up for the <input type="text" class="fill-in-blank" data-answer="flavour"> from missing fat, sugar is added. Just for one example, it is better to use real <input type="text" class="fill-in-blank" data-answer="cream"> in your coffee rather than a fat-free substitute. And likewise, urge people to avoid products that are said to be '<input type="text" class="fill-in-blank" data-answer="sugar-free">' as they usually contain chemical sugar <input type="text" class="fill-in-blank" data-answer="substitutes">, which can actually be more <input type="text" class="fill-in-blank" data-answer="harmful"> than processed sugar.
+                              Another thing to avoid is manufactured food products that are labelled '<input type="text" class="fill-in-blank" data-answer="fat-free">'. Often, to make up for the <input type="text" class="fill-in-blank" data-answer="flavour"> from missing fat, sugar is added. Just for one example, it is better to use real <input type="text" class="fill-in-blank" data-answer="cream"> in your coffee rather than a fat-free substitute. And likewise, urge people to avoid products that are said to be '<input type="text" class="fill-in-blank" data-answer="sugar-free">' as they usually contain chemical sugar <input type="text" class="fill-in-blank" data-answer="substitutes">, which can actually be more <input type="text" class="fill-in-blank" data-answer="harmful"> than processed sugar.
                          </p>
                          <p>
-                             Most dietary experts agree that the best thing people can do is get the sweetness they want through <input type="text" class="fill-in-blank" data-answer="natural"> sources, rather than sweets or sugarless alternatives with chemicals. Get it through <input type="text" class="fill-in-blank" data-answer="fruits"> and vegetables, above all. They are a much better source of natural sugar, and they also contain <input type="text" class="fill-in-blank" data-answer="essential"> vitamins your body needs. That's the best way to get the sweetness your appetite may want. But you can also eat yoghurt...
+                              Most dietary experts agree that the best thing people can do is get the sweetness they want through <input type="text" class="fill-in-blank" data-answer="natural"> sources, rather than sweets or sugarless alternatives with chemicals. Get it through <input type="text" class="fill-in-blank" data-answer="fruits"> and vegetables, above all. They are a much better source of natural sugar, and they also contain <input type="text" class="fill-in-blank" data-answer="essential"> vitamins your body needs. That's the best way to get the sweetness your appetite may want. But you can also eat yoghurt...
                          </p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -461,10 +490,10 @@
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
                          <p>
-                              I'm pleased that you've all <input type="text" class="fill-in-blank" data-answer="gathered"> here for this public meeting at Brighton City <input type="text" class="fill-in-blank" data-answer="Hall"> today. I know that many of you are <input type="text" class="fill-in-blank" data-answer="excited"> to hear details about this weekend's <input type="text" class="fill-in-blank" data-answer="opening"> of the Brighton Sports Complex. So, I've asked Shane Downs, the <input type="text" class="fill-in-blank" data-answer="head"> of the committee that has been <input type="text" class="fill-in-blank" data-answer="overseeing"> the development of the complex, to <input type="text" class="fill-in-blank" data-answer="share"> that information with you. Shane. Thank you. As many of you are <input type="text" class="fill-in-blank" data-answer="already"> aware, the Brighton Sports Complex will be the <input type="text" class="fill-in-blank" data-answer="largest"> athletic stadium our city has ever <input type="text" class="fill-in-blank" data-answer="seen">, serving primarily as the venue for national <input type="text" class="fill-in-blank" data-answer="tennis"> matches. I'm speaking today on behalf of the <input type="text" class="fill-in-blank" data-answer="entire"> committee that helped get the project <input type="text" class="fill-in-blank" data-answer="started">. I'm happy to say to all city <input type="text" class="fill-in-blank" data-answer="council"> members here with us today that we stayed well under our <input type="text" class="fill-in-blank" data-answer="budget">.
+                               I'm pleased that you've all <input type="text" class="fill-in-blank" data-answer="gathered"> here for this public meeting at Brighton City <input type="text" class="fill-in-blank" data-answer="Hall"> today. I know that many of you are <input type="text" class="fill-in-blank" data-answer="excited"> to hear details about this weekend's <input type="text" class="fill-in-blank" data-answer="opening"> of the Brighton Sports Complex. So, I've asked Shane Downs, the <input type="text" class="fill-in-blank" data-answer="head"> of the committee that has been <input type="text" class="fill-in-blank" data-answer="overseeing"> the development of the complex, to <input type="text" class="fill-in-blank" data-answer="share"> that information with you. Shane. Thank you. As many of you are <input type="text" class="fill-in-blank" data-answer="already"> aware, the Brighton Sports Complex will be the <input type="text" class="fill-in-blank" data-answer="largest"> athletic stadium our city has ever <input type="text" class="fill-in-blank" data-answer="seen">, serving primarily as the venue for national <input type="text" class="fill-in-blank" data-answer="tennis"> matches. I'm speaking today on behalf of the <input type="text" class="fill-in-blank" data-answer="entire"> committee that helped get the project <input type="text" class="fill-in-blank" data-answer="started">. I'm happy to say to all city <input type="text" class="fill-in-blank" data-answer="council"> members here with us today that we stayed well under our <input type="text" class="fill-in-blank" data-answer="budget">.
                          </p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -477,10 +506,10 @@
                      <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
                      <div class="space-y-4 text-lg leading-loose">
                          <p>
-                              Thanks for stopping by my <input type="text" class="fill-in-blank" data-answer="office">, Catherine and Matthew. So, how are you <input type="text" class="fill-in-blank" data-answer="both"> doing on the project about <input type="text" class="fill-in-blank" data-answer="globalized"> marketing in business? I think everything's going <input type="text" class="fill-in-blank" data-answer="smoothly"> so far. We have finished our <input type="text" class="fill-in-blank" data-answer="outline"> for the structure of the report, and I've just <input type="text" class="fill-in-blank" data-answer="finished"> our introduction. And I've been <input type="text" class="fill-in-blank" data-answer="doing"> the research for the main <input type="text" class="fill-in-blank" data-answer="body">. Yes, we've started doing <input type="text" class="fill-in-blank" data-answer="research"> online about specific globalized <input type="text" class="fill-in-blank" data-answer="companies">. So when we finish that, we can <input type="text" class="fill-in-blank" data-answer="begin"> work on writing the main body of the <input type="text" class="fill-in-blank" data-answer="report">. Well, what companies have you <input type="text" class="fill-in-blank" data-answer="focused"> on already, Catherine? I've discovered some <input type="text" class="fill-in-blank" data-answer="information"> about globalized fast-food <input type="text" class="fill-in-blank" data-answer="businesses">.
+                               Thanks for stopping by my <input type="text" class="fill-in-blank" data-answer="office">, Catherine and Matthew. So, how are you <input type="text" class="fill-in-blank" data-answer="both"> doing on the project about <input type="text" class="fill-in-blank" data-answer="globalized"> marketing in business? I think everything's going <input type="text" class="fill-in-blank" data-answer="smoothly"> so far. We have finished our <input type="text" class="fill-in-blank" data-answer="outline"> for the structure of the report, and I've just <input type="text" class="fill-in-blank" data-answer="finished"> our introduction. And I've been <input type="text" class="fill-in-blank" data-answer="doing"> the research for the main <input type="text" class="fill-in-blank" data-answer="body">. Yes, we've started doing <input type="text" class="fill-in-blank" data-answer="research"> online about specific globalized <input type="text" class="fill-in-blank" data-answer="companies">. So when we finish that, we can <input type="text" class="fill-in-blank" data-answer="begin"> work on writing the main body of the <input type="text" class="fill-in-blank" data-answer="report">. Well, what companies have you <input type="text" class="fill-in-blank" data-answer="focused"> on already, Catherine? I've discovered some <input type="text" class="fill-in-blank" data-answer="information"> about globalized fast-food <input type="text" class="fill-in-blank" data-answer="businesses">.
                          </p>
-                      </div>
-                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkDictationAnswers(this)">Nộp bài</button>
                      <div class="results mt-4" style="display: none;"></div>
                 </div>
             </div>
@@ -489,22 +518,514 @@
     </div>
 
     <script>
+        // --- DATA ---
+        const vocabularyList = [
+            {"id":1,"word":"Tune","type":"v","meaning":"Theo dõi, điều chỉnh"},
+            {"id":2,"word":"A 20-year wait","type":"phrase","meaning":"Sự chờ đợi 20 năm"},
+            {"id":3,"word":"Renown","type":"n","meaning":"Tiếng tăm, sự nổi danh"},
+            {"id":4,"word":"Stall in","type":"v","meaning":"Dừng lại, chững lại"},
+            {"id":5,"word":"Anonymous","type":"a","meaning":"Ẩn danh, vô danh"},
+            {"id":6,"word":"Donor","type":"n","meaning":"Người tài trợ, người tặng"},
+            {"id":7,"word":"Be granted","type":"phrase","meaning":"Được cấp, được tài trợ"},
+            {"id":8,"word":"Engagement","type":"n","meaning":"Sự tham gia, sự gắn kết; hôn ước"},
+            {"id":9,"word":"Troupe","type":"n","meaning":"Đoàn (kịch, hát)"},
+            {"id":10,"word":"Entitle","type":"v","meaning":"Cho quyền, đặt tên cho"},
+            {"id":11,"word":"Capacity of","type":"phrase","meaning":"Với tư cách là, khả năng của"},
+            {"id":12,"word":"In executive roles","type":"phrase","meaning":"Trong vai trò quản lý/điều hành"},
+            {"id":13,"word":"Coworker","type":"n","meaning":"Đồng nghiệp"},
+            {"id":14,"word":"Discrepancy","type":"n","meaning":"Sự khác nhau, sự không nhất quán"},
+            {"id":15,"word":"Token","type":"a","meaning":"Tượng trưng"},
+            {"id":16,"word":"Well-deserved roles","type":"phrase","meaning":"Vai trò xứng đáng"},
+            {"id":17,"word":"The relevance of","type":"phrase","meaning":"Sự liên quan của"},
+            {"id":18,"word":"Tangible","type":"a","meaning":"Hữu hình"},
+            {"id":19,"word":"Intangible","type":"a","meaning":"Vô hình"},
+            {"id":20,"word":"Underlie","type":"v","meaning":"Nằm dưới, làm nền tảng cho"},
+            {"id":21,"word":"Stigma","type":"n","meaning":"Sự kỳ thị"},
+            {"id":22,"word":"Professionalism","type":"n","meaning":"Tính chuyên nghiệp"},
+            {"id":23,"word":"agrarian","type":"adj","meaning":"(thuộc về) nông nghiệp"},
+            {"id":24,"word":"manufacturing techniques","type":"phrase","meaning":"Kỹ thuật sản xuất/chế tạo"},
+            {"id":25,"word":"in mass quantities","type":"phrase","meaning":"Với số lượng lớn"},
+            {"id":26,"word":"pump","type":"(v, n)","meaning":"Bơm; máy bơm"},
+            {"id":27,"word":"adapt","type":"v","meaning":"Thích nghi, điều chỉnh"},
+            {"id":28,"word":"the forward and backward","type":"phrase","meaning":"Chuyển động tới lui"},
+            {"id":29,"word":"the gear mechanism","type":"phrase","meaning":"Cơ cấu/cơ chế bánh răng"},
+            {"id":30,"word":"rotary motion","type":"phrase","meaning":"Chuyển động quay tròn"},
+            {"id":31,"word":"relatively","type":"adv","meaning":"Tương đối"},
+            {"id":32,"word":"locomotive","type":"n","meaning":"Đầu máy (xe lửa)"},
+            {"id":33,"word":"spinner","type":"n","meaning":"Thợ kéo sợi; máy kéo sợi"},
+            {"id":34,"word":"weaver","type":"n","meaning":"Thợ dệt"},
+            {"id":35,"word":"thread","type":"n","meaning":"Sợi chỉ, sợi tơ"},
+            {"id":36,"word":"mechanise (mechanize)","type":"v","meaning":"Cơ giới hóa"},
+            {"id":37,"word":"undergo","type":"v","meaning":"Trải qua, chịu đựng"},
+            {"id":38,"word":"adopt","type":"v","meaning":"Áp dụng, chấp nhận"},
+            {"id":39,"word":"chief","type":"adj","meaning":"Chính, chủ yếu, hàng đầu"},
+            {"id":40,"word":"iron ore","type":"n","meaning":"Quặng sắt"},
+            {"id":41,"word":"charcoal","type":"n","meaning":"Than củi, than gỗ"},
+            {"id":42,"word":"metals","type":"n","meaning":"Kim loại"},
+            {"id":43,"word":"enable","type":"v","meaning":"Cho phép, làm cho có thể"},
+            {"id":44,"word":"steel","type":"n","meaning":"Thép"},
+            {"id":45,"word":"in response to","type":"phrase","meaning":"Để đáp lại"},
+            {"id":46,"word":"communication","type":"n","meaning":"Sự giao tiếp, truyền thông"},
+            {"id":47,"word":"communicate","type":"v","meaning":"Giao tiếp, truyền đạt"},
+            {"id":48,"word":"immense","type":"adj","meaning":"To lớn, mênh mông, bao la"},
+            {"id":49,"word":"rural areas","type":"phrase","meaning":"Vùng nông thôn"},
+            {"id":50,"word":"accelerate","type":"v","meaning":"Tăng tốc, thúc đẩy"},
+            {"id":51,"word":"dramatically","type":"adv","meaning":"Một cách đáng kể, đột ngột"},
+            {"id":52,"word":"inadequate","type":"adj","meaning":"Không đủ, thiếu"},
+            {"id":53,"word":"sanitation","type":"n","meaning":"Hệ thống vệ sinh"},
+            {"id":54,"word":"the middle and upper classes","type":"phrase","meaning":"Tầng lớp trung lưu và thượng lưu"},
+            {"id":55,"word":"struggle","type":"(v, n)","meaning":"Đấu tranh; cuộc đấu tranh"},
+            {"id":56,"word":"along with","type":"phrase","meaning":"Cùng với"},
+            {"id":57,"word":"the pace of","type":"phrase","meaning":"Nhịp độ của"},
+            {"id":58,"word":"fuel","type":"v","meaning":"Thúc đẩy, tiếp nhiên liệu"},
+            {"id":59,"word":"opposition","type":"n","meaning":"Sự phản đối"},
+            {"id":60,"word":"industrialisation","type":"n","meaning":"Sự công nghiệp hóa"},
+            {"id":61,"word":"textile","type":"(n, adj)","meaning":"Vải dệt, hàng dệt; (thuộc) ngành dệt"},
+            {"id":62,"word":"object to","type":"v","meaning":"Phản đối"},
+            {"id":63,"word":"mechanised looms","type":"phrase","meaning":"Khung cửi cơ giới hóa"},
+            {"id":64,"word":"knitting frames","type":"phrase","meaning":"Khung dệt kim"},
+            {"id":65,"word":"craft","type":"n","meaning":"Nghề thủ công"},
+            {"id":66,"word":"livelihood","type":"n","meaning":"Kế sinh nhai"},
+            {"id":67,"word":"rob","type":"v","meaning":"Cướp, tước đoạt"},
+            {"id":68,"word":"desperate","type":"adj","meaning":"Tuyệt vọng, liều lĩnh"},
+            {"id":69,"word":"smash","type":"v","meaning":"Đập tan"},
+            {"id":70,"word":"apprentice","type":"n","meaning":"Người học việc"},
+            {"id":71,"word":"rumour (rumor)","type":"n","meaning":"Tin đồn"},
+            {"id":72,"word":"wreck","type":"v","meaning":"Phá hủy, làm hỏng"},
+            {"id":73,"word":"take place","type":"phrase","meaning":"Diễn ra, xảy ra"},
+            {"id":74,"word":"spread across","type":"phrase","meaning":"Lan rộng khắp"},
+            {"id":75,"word":"attack","type":"(v, n)","meaning":"Tấn công; cuộc tấn công"},
+            {"id":76,"word":"exchange","type":"(n, v)","meaning":"Sự trao đổi; trao đổi (khi đi với gunfire nghĩa là cuộc đấu súng)"},
+            {"id":77,"word":"gunfire","type":"n","meaning":"Tiếng súng, cuộc đấu súng"},
+            {"id":78,"word":"guard","type":"(n, v)","meaning":"Lính gác, người bảo vệ; canh gác"},
+            {"id":79,"word":"soldier","type":"n","meaning":"Người lính"},
+            {"id":80,"word":"punishable","type":"adj","meaning":"Có thể bị trừng phạt, đáng bị phạt"},
+            {"id":81,"word":"unrest","type":"n","meaning":"Tình trạng bất ổn, náo động"},
+            {"id":82,"word":"mill","type":"n","meaning":"Nhà máy (dệt, xay xát), xưởng"},
+            {"id":83,"word":"in the days that followed","type":"phrase","meaning":"Trong những ngày tiếp theo"},
+            {"id":84,"word":"arrest","type":"(v, n)","meaning":"Bắt giữ; vụ bắt giữ"},
+            {"id":85,"word":"resistance","type":"n","meaning":"Sự kháng cự, sự chống cự"},
+            {"id":86,"word":"vanish","type":"v","meaning":"Biến mất, tan biến"},
+            {"id":87,"word":"Brick by brick","type":"phrase","meaning":"Từng viên gạch một, từ từ và kiên định"},
+            {"id":88,"word":"magical","type":"adj","meaning":"Kì diệu, có phép thuật"},
+            {"id":89,"word":"fairy-tale","type":"n","meaning":"Truyện cổ tích"},
+            {"id":90,"word":"turret","type":"n","meaning":"Tháp nhỏ (trên lâu đài)"},
+            {"id":91,"word":"fire-breathing","type":"adj","meaning":"Phun ra lửa"},
+            {"id":92,"word":"wicked","type":"adj","meaning":"Xấu xa, độc ác"},
+            {"id":93,"word":"witch","type":"n","meaning":"Phù thủy"},
+            {"id":94,"word":"gallant","type":"adj","meaning":"Dũng cảm, hào hiệp"},
+            {"id":95,"word":"enchant","type":"v","meaning":"Bỏ bùa, làm say mê"},
+            {"id":96,"word":"be aware of","type":"phrase","meaning":"Nhận thức về, ý thức về"},
+            {"id":97,"word":"fantasy","type":"n","meaning":"Sự tưởng tượng, ảo mộng"},
+            {"id":98,"word":"repercussion","type":"n","meaning":"Hậu quả, ảnh hưởng (thường là tiêu cực)"},
+            {"id":99,"word":"abandon","type":"v","meaning":"Từ bỏ, ruồng bỏ"},
+            {"id":100,"word":"pretence (pretense)","type":"n","meaning":"Sự giả vờ, giả bộ"},
+            {"id":101,"word":"tire","type":"v","meaning":"Làm cho mệt mỏi, trở nên mệt mỏi"},
+            {"id":102,"word":"settle down","type":"phr v","meaning":"Ổn định cuộc sống"},
+            {"id":103,"word":"take turns with","type":"phrase","meaning":"Thay phiên nhau"},
+            {"id":104,"word":"faculty","type":"n","meaning":"Khả năng, năng lực (trí tuệ, thể chất)"},
+            {"id":105,"word":"underpin","type":"v","meaning":"Làm nền tảng, củng cố"},
+            {"id":106,"word":"problem-solving","type":"n","meaning":"Việc giải quyết vấn đề"},
+            {"id":107,"word":"adaptable","type":"adj","meaning":"Dễ thích nghi"},
+            {"id":108,"word":"millennia","type":"n","meaning":"Thiên niên kỷ"},
+            {"id":109,"word":"philosopher","type":"n","meaning":"Nhà triết học"},
+            {"id":110,"word":"extoll (extol)","type":"v","meaning":"Tán dương, ca tụng"},
+            {"id":111,"word":"virtue","type":"n","meaning":"Đức tính tốt, đức hạnh"},
+            {"id":112,"word":"play-based learning","type":"phrase","meaning":"Học tập thông qua trò chơi"},
+            {"id":113,"word":"increasingly","type":"adv","meaning":"Ngày càng"},
+            {"id":114,"word":"scarce","type":"adj","meaning":"Khan hiếm"},
+            {"id":115,"word":"curtail","type":"v","meaning":"Cắt giảm, hạn chế"},
+            {"id":116,"word":"victim","type":"n","meaning":"Nạn nhân"},
+            {"id":117,"word":"competition","type":"n","meaning":"Sự cạnh tranh, cuộc thi"},
+            {"id":118,"word":"concern","type":"n","meaning":"Mối quan tâm, sự lo lắng"},
+            {"id":119,"word":"implication","type":"n","meaning":"Hàm ý, ảnh hưởng"},
+            {"id":120,"word":"child-initiated","type":"adj","meaning":"Do trẻ em khởi xướng"},
+            {"id":121,"word":"spontaneous","type":"adj","meaning":"Tự phát, tự nhiên"},
+            {"id":122,"word":"unpredictable","type":"adj","meaning":"Không thể đoán trước"},
+            {"id":123,"word":"intervene","type":"v","meaning":"Can thiệp"},
+            {"id":124,"word":"puzzle","type":"n","meaning":"Câu đố, trò chơi xếp hình"},
+            {"id":125,"word":"possibility","type":"n","meaning":"Khả năng (có thể xảy ra)"},
+            {"id":126,"word":"awareness","type":"n","meaning":"Sự nhận thức"},
+            {"id":127,"word":"undertake","type":"v","meaning":"Đảm nhận, thực hiện"},
+            {"id":128,"word":"carry out","type":"phr v","meaning":"Tiến hành, thực hiện"},
+            {"id":129,"word":"pre-schooler","type":"n","meaning":"Trẻ mẫu giáo"},
+            {"id":130,"word":"unfamiliar","type":"adj","meaning":"Không quen thuộc"},
+            {"id":131,"word":"requiring scientific reasoning","type":"phrase","meaning":"Đòi hỏi sự lập luận khoa học"},
+            {"id":132,"word":"facilitate","type":"v","meaning":"Tạo điều kiện, làm cho dễ dàng hơn"},
+            {"id":133,"word":"extremely","type":"adv","meaning":"Cực kỳ, vô cùng"},
+            {"id":134,"word":"self-regulate","type":"v","meaning":"Tự điều chỉnh"},
+            {"id":135,"word":"indicator","type":"n","meaning":"Chỉ số, dấu hiệu"},
+            {"id":136,"word":"investigate","type":"v","meaning":"Điều tra"},
+            {"id":137,"word":"observe","type":"v","meaning":"Quan sát"},
+            {"id":138,"word":"diagnosis","type":"n","meaning":"Sự chẩn đoán"},
+            {"id":139,"word":"neurodevelopmental disorder","type":"phrase","meaning":"Rối loạn phát triển thần kinh"},
+            {"id":140,"word":"play-based approach","type":"phrase","meaning":"Phương pháp tiếp cận dựa trên trò chơi"},
+            {"id":141,"word":"stimulus","type":"n","meaning":"Sự kích thích"},
+            {"id":142,"word":"playful","type":"adj","meaning":"Vui tươi, ham chơi"},
+            {"id":143,"word":"comment","type":"(n, v)","meaning":"Lời bình luận; bình luận"},
+            {"id":144,"word":"backwater","type":"n","meaning":"Nơi tù túng, hẻo lánh, kém phát triển"},
+            {"id":145,"word":"untroubled","type":"adj","meaning":"Yên bình, không bị làm phiền"},
+            {"id":146,"word":"debate","type":"(n, v)","meaning":"Cuộc tranh luận; tranh luận"},
+            {"id":147,"word":"trivial","type":"adj","meaning":"Tầm thường, không quan trọng"},
+            {"id":148,"word":"contrast","type":"(n, v)","meaning":"Sự tương phản; làm tương phản"},
+            {"id":149,"word":"bike-sharing scheme","type":"phrase","meaning":"Kế hoạch/hệ thống chia sẻ xe đạp"},
+            {"id":150,"word":"come up with","type":"phr v","meaning":"Nghĩ ra, nảy ra (ý tưởng)"},
+            {"id":151,"word":"perceive","type":"v","meaning":"Nhận thức, xem xét"},
+            {"id":152,"word":"thread of","type":"phrase","meaning":"Mạch (suy nghĩ), dòng (sự kiện)"},
+            {"id":153,"word":"consumerism","type":"n","meaning":"Chủ nghĩa tiêu dùng"},
+            {"id":154,"word":"paint","type":"v","meaning":"Sơn, vẽ"},
+            {"id":155,"word":"distribute","type":"v","meaning":"Phân phát"},
+            {"id":156,"word":"leaflet","type":"n","meaning":"Tờ rơi"},
+            {"id":157,"word":"heavily","type":"adv","meaning":"Nặng nề, rất nhiều"},
+            {"id":158,"word":"recall","type":"v","meaning":"Nhớ lại, gọi về"},
+            {"id":159,"word":"particularly","type":"adv","meaning":"Đặc biệt là"},
+            {"id":160,"word":"publicise (publicize)","type":"v","meaning":"Công khai, quảng bá"},
+            {"id":161,"word":"symbolic","type":"adj","meaning":"Tượng trưng"},
+            {"id":162,"word":"seize the opportunity to","type":"phrase","meaning":"Nắm bắt cơ hội để"},
+            {"id":163,"word":"elaborate","type":"(v, adj)","meaning":"Diễn giải chi tiết; tỉ mỉ, phức tạp"},
+            {"id":164,"word":"municipality","type":"n","meaning":"Chính quyền thành phố, đô thị"},
+            {"id":165,"word":"calculations","type":"n","meaning":"Sự tính toán"},
+            {"id":166,"word":"turned out","type":"phr v","meaning":"Hóa ra, thành ra"},
+            {"id":167,"word":"unanimously","type":"adv","meaning":"Nhất trí, đồng lòng"},
+            {"id":168,"word":"reject","type":"v","meaning":"Bác bỏ, từ chối"},
+            {"id":169,"word":"belong to","type":"phr v","meaning":"Thuộc về"},
+            {"id":170,"word":"glorious","type":"adj","meaning":"Huy hoàng, rực rỡ"},
+            {"id":171,"word":"discourage","type":"v","meaning":"Làm nản lòng"},
+            {"id":172,"word":"ask for","type":"phr v","meaning":"Yêu cầu, xin"},
+            {"id":173,"word":"deposit","type":"(n, v)","meaning":"Tiền đặt cọc; đặt cọc"},
+            {"id":174,"word":"drop","type":"v","meaning":"Rơi, thả; từ bỏ (kế hoạch)"},
+            {"id":175,"word":"conscious","type":"adj","meaning":"Có ý thức, nhận biết được"},
+            {"id":176,"word":"prove","type":"v","meaning":"Chứng minh"},
+            {"id":177,"word":"launch","type":"v","meaning":"Ra mắt, khởi động, tung ra"},
+            {"id":178,"word":"no longer","type":"phrase","meaning":"Không còn nữa"},
+            {"id":179,"word":"guilder","type":"n","meaning":"Đồng Guilder (tiền Hà Lan cũ)"},
+            {"id":180,"word":"conspicuous","type":"adj","meaning":"Dễ thấy, nổi bật"},
+            {"id":181,"word":"sturdy","type":"adj","meaning":"Cứng cáp, vững chắc"},
+            {"id":182,"word":"rack","type":"n","meaning":"Giá, kệ (để đồ)"},
+            {"id":183,"word":"the chip card","type":"phrase","meaning":"Thẻ chip"},
+            {"id":184,"word":"the bike rack","type":"phrase","meaning":"Giá để xe đạp"},
+            {"id":185,"word":"prone","type":"adj","meaning":"Dễ bị, có khuynh hướng bị (điều gì xấu)"},
+            {"id":186,"word":"vandalism","type":"n","meaning":"Hành vi phá hoại của công"},
+            {"id":187,"word":"theft","type":"n","meaning":"Sự trộm cắp"},
+            {"id":188,"word":"instantly","type":"adv","meaning":"Ngay lập tức"},
+            {"id":189,"word":"recognise (recognize)","type":"v","meaning":"Nhận ra"},
+            {"id":190,"word":"blow","type":"n","meaning":"Cú giáng, cú sốc"},
+            {"id":191,"word":"abolish","type":"v","meaning":"Bãi bỏ, hủy bỏ"},
+            {"id":192,"word":"profitable","type":"adj","meaning":"Có lợi nhuận"},
+            {"id":193,"word":"pivotal","type":"adj","meaning":"Then chốt, chủ chốt"},
+            {"id":194,"word":"disappoint","type":"v","meaning":"Làm thất vọng"},
+            {"id":195,"word":"corporation","type":"n","meaning":"Tập đoàn, công ty lớn"},
+            {"id":196,"word":"boast","type":"v","meaning":"Khoe khoang, tự hào về"},
+            {"id":197,"word":"inspire","type":"v","meaning":"Truyền cảm hứng"},
+            {"id":198,"word":"set up","type":"phr v","meaning":"Thành lập, thiết lập"},
+            {"id":199,"word":"financially","type":"adv","meaning":"Về mặt tài chính"},
+            {"id":200,"word":"file","type":"v","meaning":"Nộp (đơn), đệ trình"},
+            {"id":201,"word":"patent","type":"(n, v)","meaning":"Bằng sáng chế; cấp bằng sáng chế"},
+            {"id":202,"word":"regard","type":"(v, n)","meaning":"Coi như, xem như; sự quan tâm"},
+            {"id":203,"word":"underground","type":"(adj, n)","meaning":"Dưới lòng đất; ngầm"},
+            {"id":204,"word":"destination","type":"n","meaning":"Điểm đến"},
+            {"id":205,"word":"optimistic","type":"adj","meaning":"Lạc quan"},
+            {"id":206,"word":"mentality","type":"n","meaning":"Tâm lý, tư duy"},
+            {"id":207,"word":"dominate","type":"v","meaning":"Thống trị, chiếm ưu thế"},
+            {"id":208,"word":"propose","type":"v","meaning":"Đề xuất"},
+            {"id":209,"word":"intend","type":"v","meaning":"Có ý định"},
+            {"id":210,"word":"initially","type":"adv","meaning":"Ban đầu"},
+            {"id":211,"word":"withdraw","type":"v","meaning":"Rút lui, rút khỏi"},
+            {"id":212,"word":"attitude","type":"n","meaning":"Thái độ"},
+            {"id":213,"word":"majority","type":"n","meaning":"Đa số"},
+            {"id":214,"word":"resident","type":"n","meaning":"Cư dân"},
+            {"id":215,"word":"likelihood","type":"n","meaning":"Khả năng (sẽ xảy ra)"},
+            {"id":216,"word":"reputation","type":"n","meaning":"Danh tiếng"},
+            {"id":217,"word":"hand out","type":"phr v","meaning":"Phân phát"},
+            {"id":218,"word":"condemn","type":"v","meaning":"Lên án, chỉ trích"},
+            {"id":219,"word":"get off the ground","type":"phrase","meaning":"bắt đầu triển khai"},
+            {"id":220,"word":"seize this opportunity to","type":"phrase","meaning":"năm bắt cơ hội"},
+            {"id":221,"word":"Divergent","type":"adj","meaning":"Khác nhau, bất đồng, phân kỳ"},
+            {"id":222,"word":"Cardiovascular","type":"adj","meaning":"(thuộc) Tim mạch"},
+            {"id":223,"word":"Osteoarthritis","type":"n","meaning":"Thoái hóa khớp, viêm xương khớp"},
+            {"id":224,"word":"Conducive","type":"adj","meaning":"Có lợi, thuận lợi, có ích (cho việc gì)"},
+            {"id":225,"word":"Rendering","type":"n","meaning":"Sự kết xuất (hình ảnh), sự diễn tả"},
+            {"id":226,"word":"Futile","type":"adj","meaning":"Vô ích, không hiệu quả, phù phiếm"},
+            {"id":227,"word":"Imperil","type":"v","meaning":"Gây nguy hiểm, đẩy vào tình thế nguy hiểm"},
+            {"id":228,"word":"Caprices","type":"n (plural)","meaning":"(Những) sự thất thường, ý thích bất chợt"},
+            {"id":229,"word":"Transformation","type":"n","meaning":"Sự thay đổi, sự biến đổi (thường là lớn và tích cực)"},
+            {"id":230,"word":"Modification","type":"n","meaning":"Sự sửa đổi, sự điều chỉnh"},
+            {"id":231,"word":"Customisation","type":"n","meaning":"Sự tùy chỉnh (làm theo yêu cầu riêng)"},
+            {"id":232,"word":"Specification","type":"n","meaning":"Các thông số kỹ thuật, đặc điểm kỹ thuật"},
+            {"id":233,"word":"Elite","type":"n","meaning":"Giới tinh hoa, nhóm người xuất sắc nhất"},
+            {"id":234,"word":"Significance","type":"n","meaning":"Tầm quan trọng, ý nghĩa"},
+            {"id":235,"word":"Tension","type":"n","meaning":"Độ căng (của dây vợt)"},
+            {"id":236,"word":"Synthetic","type":"n","meaning":"Các vật liệu tổng hợp"},
+            {"id":237,"word":"Additive","type":"n","meaning":"Chất phụ gia"},
+            {"id":238,"word":"Preference","type":"n","meaning":"Sở thích cá nhân, sự ưa chuộng"},
+            {"id":239,"word":"Gut","type":"n","meaning":"Ruột (động vật)"},
+            {"id":240,"word":"Underestimate","type":"v","meaning":"Đánh giá thấp"},
+            {"id":241,"word":"Tweak","type":"v","meaning":"Tinh chỉnh, điều chỉnh nhỏ"},
+            {"id":242,"word":"Maximise","type":"v","meaning":"Tối đa hóa"},
+            {"id":243,"word":"Generate","type":"v","meaning":"Tạo ra, sản sinh ra"},
+            {"id":244,"word":"Ban","type":"v","meaning":"Cấm"},
+            {"id":245,"word":"Experiment","type":"v","meaning":"Thử nghiệm"},
+            {"id":246,"word":"Enhance","type":"v","meaning":"Nâng cao, cải thiện"},
+            {"id":247,"word":"Revolutionise","type":"v","meaning":"Cách mạng hóa, thay đổi hoàn toàn"},
+            {"id":248,"word":"Attribute to","type":"phr. v.","meaning":"Quy cho, cho là do"},
+            {"id":249,"word":"Anticipate","type":"v","meaning":"Lường trước, dự đoán"},
+            {"id":250,"word":"Mould","type":"v","meaning":"Đúc, tạo khuôn"},
+            {"id":251,"word":"Indicate","type":"v","meaning":"Chỉ ra, cho thấy"},
+            {"id":252,"word":"Incredible","type":"adj","meaning":"Khó tin, phi thường"},
+            {"id":253,"word":"Remarkable","type":"adj","meaning":"Đáng chú ý, xuất sắc"},
+            {"id":254,"word":"Subtle","type":"adj","meaning":"Tinh tế, khó nhận thấy"},
+            {"id":255,"word":"Visible","type":"adj","meaning":"Có thể nhìn thấy, rõ ràng"},
+            {"id":256,"word":"Publicised","type":"adj","meaning":"Được công bố rộng rãi"},
+            {"id":257,"word":"Valuable","type":"adj","meaning":"Có giá trị, quý giá"},
+            {"id":258,"word":"Particular","type":"adj","meaning":"Kỹ tính, cầu kỳ, đặc biệt"},
+            {"id":259,"word":"Thorough","type":"adj","meaning":"Kỹ lưỡng, cẩn thận"},
+            {"id":260,"word":"Denser","type":"adj","meaning":"Dày đặc hơn"},
+            {"id":261,"word":"Primary","type":"adj","meaning":"Chính, chủ yếu"},
+            {"id":262,"word":"Durable","type":"adj","meaning":"Bền, có độ bền cao"},
+            {"id":263,"word":"Climatic","type":"adj","meaning":"Thuộc về khí hậu"},
+            {"id":264,"word":"The likes of","type":"phrase","meaning":"Những người/thứ tương tự như, chẳng hạn như."},
+            {"id":265,"word":"To name just a few","type":"idiom","meaning":"(Để) kể ra một vài ví dụ."},
+            {"id":266,"word":"Pass more or less unnoticed","type":"idiom","meaning":"Gần như không được chú ý đến."},
+            {"id":267,"word":"Readily available","type":"adj phr","meaning":"Có sẵn, dễ dàng tìm thấy hoặc mua được."},
+            {"id":268,"word":"The line between winning and losing becomes thinner","type":"idiom","meaning":"Ranh giới giữa thắng và thua ngày càng mong manh."},
+            {"id":269,"word":"Competitive advantage","type":"n phr","meaning":"Lợi thế cạnh tranh."},
+            {"id":270,"word":"Date back to","type":"phr. v.","meaning":"Có từ thời, bắt nguồn từ."},
+            {"id":271,"word":"By far","type":"idiom","meaning":"Hơn hẳn, cho đến nay."},
+            {"id":272,"word":"A perfect fit for","type":"phrase","meaning":"Một sự phù hợp hoàn hảo cho."},
+            {"id":273,"word":"Battle it out","type":"idiom","meaning":"Tranh đấu quyết liệt."},
+            {"id":274,"word":"Go beyond","type":"phr. v.","meaning":"Vượt ra ngoài, không chỉ dừng lại ở."},
+            {"id":275,"word":"Misfit","type":"n","meaning":"kẻ lập dị, không phù hợp với xã hội."},
+            {"id":276,"word":"Daredevil","type":"n","meaning":"người liều lĩnh, táo bạo."},
+            {"id":277,"word":"Swashbuckler","type":"n","meaning":"kẻ phiêu lưu, ưa mạo hiểm."},
+            {"id":278,"word":"Pursuer","type":"n","meaning":"người truy đuổi."},
+            {"id":279,"word":"Might","type":"n","meaning":"Sức mạnh, quyền lực to lớn."},
+            {"id":280,"word":"Fleet","type":"n","meaning":"Hạm đội."},
+            {"id":281,"word":"Reign","type":"n","meaning":"Triều đại, thời gian trị vì."},
+            {"id":282,"word":"Civilisation","type":"n","meaning":"Nền văn minh."},
+            {"id":283,"word":"Inhabitant","type":"n","meaning":"Cư dân"},
+            {"id":284,"word":"Hardship","type":"n","meaning":"Sự gian khổ, khó khăn."},
+            {"id":285,"word":"Coves","type":"n","meaning":"Các vịnh nhỏ, vũng kín."},
+            {"id":286,"word":"Retaliation","type":"n","meaning":"Sự trả đũa, trả thù."},
+            {"id":287,"word":"Opponent","type":"n","meaning":"Đối thủ."},
+            {"id":288,"word":"Correspondence","type":"n","meaning":"Thư từ liên lạc."},
+            {"id":289,"word":"Disruption","type":"n","meaning":"Sự gián đoạn, sự phá vỡ."},
+            {"id":290,"word":"Commerce","type":"n","meaning":"Thương mại, buôn bán."},
+            {"id":291,"word":"Orator","type":"n","meaning":"Nhà hùng biện."},
+            {"id":292,"word":"Detour","type":"n","meaning":"Đường vòng."},
+            {"id":293,"word":"Culprit","type":"n","meaning":"Thủ phạm."},
+            {"id":294,"word":"Dignitaries","type":"n","meaning":"Các quan chức cấp cao."},
+            {"id":295,"word":"Ransom","type":"n","meaning":"Tiền chuộc."},
+            {"id":296,"word":"Menace","type":"n","meaning":"Mối đe dọa."},
+            {"id":297,"word":"Prowl","type":"v","meaning":"Lảng vảng, rình mò."},
+            {"id":298,"word":"Raid","type":"v","meaning":"Đột kích, cướp phá."},
+            {"id":299,"word":"Eradicate","type":"v","meaning":"Triệt hạ, xóa sổ hoàn toàn."},
+            {"id":300,"word":"Predate","type":"v","meaning":"Có trước, tồn tại trước."},
+            {"id":301,"word":"Possess","type":"v","meaning":"Sở hữu."},
+            {"id":302,"word":"Surrender","type":"v","meaning":"Đầu hàng."},
+            {"id":303,"word":"Resort to","type":"phr. v.","meaning":"Phải dùng đến (một biện pháp cuối cùng)."},
+            {"id":304,"word":"Boost","type":"v","meaning":"Thúc đẩy, tăng cường."},
+            {"id":305,"word":"Assure","type":"v","meaning":"Cam đoan, trấn an."},
+            {"id":306,"word":"Condone","type":"v","meaning":"Bỏ qua, dung túng (cho hành vi sai trái)."},
+            {"id":307,"word":"Praise","type":"v","meaning":"Ca ngợi, tán dương."},
+            {"id":308,"word":"Glorify","type":"v","meaning":"Tôn vinh, ca tụng."},
+            {"id":309,"word":"Hamper","type":"v","meaning":"Cản trở, gây khó khăn."},
+            {"id":310,"word":"Profit from","type":"phr. v.","meaning":"Hưởng lợi từ."},
+            {"id":311,"word":"Embolden","type":"v","meaning":"Cổ vũ, làm cho bạo dạn hơn."},
+            {"id":312,"word":"Kidnap","type":"v","meaning":"Bắt cóc."},
+            {"id":313,"word":"Outlive","type":"v","meaning":"Sống lâu hơn; hoặc trở nên lỗi thời, hết giá trị."},
+            {"id":314,"word":"Grant","type":"v","meaning":"Ban cho, cấp cho."},
+            {"id":315,"word":"Combat","type":"v","meaning":"Chiến đấu, chống lại."},
+            {"id":316,"word":"Assign","type":"v","meaning":"Phân công, chỉ định."},
+            {"id":317,"word":"Cleanse","type":"v","meaning":"Dọn sạch, thanh trừng."},
+            {"id":318,"word":"Vital","type":"adj","meaning":"Tối quan trọng, thiết yếu."},
+            {"id":319,"word":"Fertile","type":"adj","meaning":"Màu mỡ, phì nhiêu."},
+            {"id":320,"word":"Rugged","type":"adj","meaning":"Gồ ghề, hiểm trở."},
+            {"id":321,"word":"Unsurpassed","type":"adj","meaning":"Vô song, không gì sánh bằng."},
+            {"id":322,"word":"Navigable","type":"adj","meaning":"Có thể đi lại được bằng tàu thuyền."},
+            {"id":323,"word":"Substantial","type":"adj","meaning":"Đáng kể, lớn lao."},
+            {"id":324,"word":"Liberal","type":"adj","meaning":"Phóng khoáng, rộng rãi."},
+            {"id":325,"word":"Prominent","type":"adj","meaning":"Nổi bật, lỗi lạc."},
+            {"id":326,"word":"Concerted","type":"adj","meaning":"Có phối hợp, đồng lòng."},
+            {"id":327,"word":"Vast","type":"adj","meaning":"Rộng lớn, mênh mông."},
+            {"id":328,"word":"Spring to mind","type":"idiom","meaning":"Nảy ra trong đầu, hiện lên trong tâm trí."},
+            {"id":329,"word":"In command of","type":"phrase","meaning":"Chỉ huy, điều khiển."},
+            {"id":330,"word":"Spread fear across","type":"phrase","meaning":"Gieo rắc nỗi sợ hãi khắp nơi."},
+            {"id":331,"word":"Rely heavily on","type":"phrase","meaning":"Phụ thuộc nặng nề vào."},
+            {"id":332,"word":"Turn to (piracy)","type":"phr. v.","meaning":"Chuyển sang (làm cướp biển)."},
+            {"id":333,"word":"Strike undetected","type":"phrase","meaning":"Tấn công mà không bị phát hiện."},
+            {"id":334,"word":"Caught in a trap","type":"idiom","meaning":"Bị mắc bẫy."},
+            {"id":335,"word":"In return","type":"phrase","meaning":"Để đáp lại."},
+            {"id":336,"word":"Outlive one's usefulness","type":"idiom","meaning":"Hết giá trị sử dụng, không còn hữu ích nữa."},
+            {"id":337,"word":"At the hands of","type":"idiom","meaning":"Dưới tay của (ai đó)."},
+            {"id":338,"word":"reap greater benefits","type":"v.p","meaning":"gặt hái/thu được nhiều lợi ích hơn"},
+            {"id":339,"word":"uphold morals and values in a community","type":"v.p","meaning":"giữ gìn/đề cao đạo đức và các giá trị trong cộng đồng"},
+            {"id":340,"word":"contribute free labor to...","type":"v.p","meaning":"đóng góp lao động miễn phí cho..."},
+            {"id":341,"word":"seek employment","type":"v.p","meaning":"tìm kiếm việc làm"},
+            {"id":342,"word":"puts greater pressure on...","type":"v.p","meaning":"gây áp lực lớn hơn lên..."},
+            {"id":343,"word":"demographic shift","type":"n.p","meaning":"sự chuyển dịch nhân khẩu học"},
+            {"id":344,"word":"dependency ratio","type":"n.p","meaning":"tỷ lệ phụ thuộc"},
+            {"id":345,"word":"strain on public finances","type":"n.p","meaning":"gánh nặng cho tài chính công"},
+            {"id":346,"word":"pension burden","type":"n.p","meaning":"gánh nặng lương hưu"},
+            {"id":347,"word":"shrinking workforce","type":"n.p","meaning":"lực lượng lao động bị thu hẹp"},
+            {"id":348,"word":"intergenerational equity","type":"n.p","meaning":"công bằng giữa các thế hệ"},
+            {"id":349,"word":"socioeconomic implications","type":"n.p","meaning":"hệ lụy kinh tế-xã hội"},
+            {"id":350,"word":"accumulated wealth","type":"n.p","meaning":"tài sản tích lũy"},
+            {"id":351,"word":"disposable income","type":"n.p","meaning":"thu nhập khả dụng"},
+            {"id":352,"word":"experienced workforce","type":"n.p","meaning":"lực lượng lao động giàu kinh nghiệm"},
+            {"id":353,"word":"proactive policies","type":"n.p","meaning":"chính sách chủ động"},
+            {"id":354,"word":"a double-edged sword","type":"idiom","meaning":"con dao hai lưỡi"},
+            {"id":355,"word":"to harness the potential of","type":"v.p","meaning":"khai thác tiềm năng của..."},
+            {"id":356,"word":"a burgeoning market","type":"n.p","meaning":"một thị trường đang phát triển nhanh"},
+            {"id":357,"word":"the grey pound","type":"n.p","meaning":"sức mua của người cao tuổi"},
+            {"id":358,"word":"caregiving burden","type":"n.p","meaning":"gánh nặng chăm sóc"},
+            {"id":359,"word":"to mitigate the negative effects","type":"v.p","meaning":"giảm thiểu các tác động tiêu cực"},
+            {"id":360,"word":"lifelong learning","type":"n.p","meaning":"học tập suốt đời"},
+            {"id":361,"word":"aroma","type":"n.","meaning":"mùi thơm, hương thơm"},
+            {"id":362,"word":"beverage","type":"n.","meaning":"đồ uống"},
+            {"id":363,"word":"cluster","type":"n.","meaning":"cụm, bó, đàn, bầy"},
+            {"id":364,"word":"combine","type":"v.","meaning":"kết hợp, phối hợp"},
+            {"id":365,"word":"condensed","type":"adj.","meaning":"cô đặc, đăc lại"},
+            {"id":366,"word":"contemporary","type":"adj.","meaning":"đương đại, đương thời"},
+            {"id":367,"word":"cultivate","type":"v.","meaning":"trồng trọt, trau dồi"},
+            {"id":368,"word":"divine","type":"adj.","meaning":"thần thánh, thiêng liêng"},
+            {"id":369,"word":"humid","type":"adj.","meaning":"ẩm, ẩm ướt"},
+            {"id":370,"word":"odor","type":"n.","meaning":"mùi, mùi hôi"},
+            {"id":371,"word":"palate","type":"n.","meaning":"vòm miệng, khẩu vị"},
+            {"id":372,"word":"paradise","type":"n.","meaning":"thiên đường"},
+            {"id":373,"word":"plantation","type":"n.","meaning":"đồn điền"},
+            {"id":374,"word":"rapid","type":"adj.","meaning":"nhanh, nhanh chóng"},
+            {"id":375,"word":"rate","type":"n.","meaning":"tốc độ, tỷ lệ"},
+            {"id":376,"word":"soothing","type":"adj.","meaning":"dịu dàng, êm dịu"},
+            {"id":377,"word":"texture","type":"n.","meaning":"kết cấu, bề mặt"},
+            {"id":378,"word":"toxic","type":"adj.","meaning":"độc, độc hại"},
+            {"id":379,"word":"vary","type":"v.","meaning":"thay đổi, biến đổi"},
+            {"id":380,"word":"bring about","type":"v.p","meaning":"gây ra, mang lại"},
+            {"id":381,"word":"care about","type":"v.p","meaning":"quan tâm đến"},
+            {"id":382,"word":"do up","type":"v.p","meaning":"cài, thắt, trang trí, sửa chữa"},
+            {"id":383,"word":"get over","type":"v.p","meaning":"vượt qua, bình phục"},
+            {"id":384,"word":"give away","type":"v.p","meaning":"cho đi, tiết lộ bí mật"},
+            {"id":385,"word":"hand in","type":"v.p","meaning":"nộp, đệ trình"},
+            {"id":386,"word":"hold on","type":"v.p","meaning":"giữ máy, chờ một chút, bám chặt"},
+            {"id":387,"word":"make out","type":"v.p","meaning":"nhìn ra, hiểu được, hôn nhau"},
+            {"id":388,"word":"put in for","type":"v.p","meaning":"đòi hỏi, yêu sách, xin"},
+            {"id":389,"word":"run into","type":"v.p","meaning":"tình cờ gặp"},
+            {"id":390,"word":"set off","type":"v.p","meaning":"khởi hành, bắt đầu một chuyến đi, gây nổ"},
+            {"id":391,"word":"stand out","type":"v.p","meaning":"nổi bật"},
+            {"id":392,"word":"take over","type":"v.p","meaning":"tiếp quản, đảm nhận"},
+            {"id":393,"word":"turn down","type":"v.p","meaning":"từ chối, vặn nhỏ (âm thanh, nhiệt độ)"},
+            {"id":394,"word":"wrap up","type":"v.p","meaning":"gói lại, kết thúc, mặc ấm"},
+            {"id":395,"word":"absorbing","type":"adj.","meaning":"lôi cuốn, hấp dẫn"},
+            {"id":396,"word":"fatal","type":"adj.","meaning":"gây chết người, chí mạng"},
+            {"id":397,"word":"genuine","type":"adj.","meaning":"thật, chân thật, chính hãng"},
+            {"id":398,"word":"graceful","type":"adj.","meaning":"duyên dáng, uyển chuyển"},
+            {"id":399,"word":"horrible","type":"adj.","meaning":"kinh khủng, khủng khiếp"},
+            {"id":400,"word":"idle","type":"adj.","meaning":"nhàn rỗi, lười biếng"},
+            {"id":401,"word":"innocent","type":"adj.","meaning":"vô tội, ngây thơ"},
+            {"id":402,"word":"judicious","type":"adj.","meaning":"sáng suốt, khôn ngoan"},
+            {"id":403,"word":"mean","type":"adj.","meaning":"keo kiệt, xấu tính"},
+            {"id":404,"word":"ordinary","type":"adj.","meaning":"bình thường, thông thường"},
+            {"id":405,"word":"painful","type":"adj.","meaning":"đau đớn"},
+            {"id":406,"word":"praiseworthy","type":"adj.","meaning":"đáng khen ngợi"},
+            {"id":407,"word":"precise","type":"adj.","meaning":"chính xác, tỉ mỉ"},
+            {"id":408,"word":"puzzled","type":"adj.","meaning":"bối rối, khó xử"},
+            {"id":409,"word":"admiral","type":"n.","meaning":"đô đốc"},
+            {"id":410,"word":"admonish","type":"v.","meaning":"khiển trách, la rầy"},
+            {"id":411,"word":"arc","type":"n.","meaning":"hình cung, vòng cung"},
+            {"id":412,"word":"audible","type":"adj.","meaning":"có thể nghe thấy"},
+            {"id":413,"word":"awesome","type":"adj.","meaning":"tuyệt vời, đáng kinh ngạc"},
+            {"id":414,"word":"beware","type":"v.","meaning":"cẩn thận, coi chừng"},
+            {"id":415,"word":"brag","type":"v.","meaning":"khoe khoang"},
+            {"id":416,"word":"character","type":"n.","meaning":"tính cách, nhân vật"},
+            {"id":417,"word":"conscience","type":"n.","meaning":"lương tâm"},
+            {"id":418,"word":"disagree","type":"v.","meaning":"không đồng ý"},
+            {"id":419,"word":"echo","type":"v.","meaning":"vang lại, dội lại"},
+            {"id":420,"word":"escape","type":"v.","meaning":"trốn thoát"},
+            {"id":421,"word":"eventual","type":"adj.","meaning":"cuối cùng, sau cùng"},
+            {"id":422,"word":"fiery","type":"adj.","meaning":"bốc lửa, nảy lửa"},
+            {"id":423,"word":"flesh","type":"n.","meaning":"thịt, da thịt"},
+            {"id":424,"word":"grapefruit","type":"n.","meaning":"quả bưởi"},
+            {"id":425,"word":"hay","type":"n.","meaning":"cỏ khô"},
+            {"id":426,"word":"hint","type":"n.","meaning":"lời gợi ý"},
+            {"id":427,"word":"horrified","type":"adj.","meaning":"kinh hoàng, khiếp sợ"},
+            {"id":428,"word":"idiot","type":"n.","meaning":"kẻ ngốc"},
+            {"id":429,"word":"indirect","type":"adj.","meaning":"gián tiếp"},
+            {"id":430,"word":"kerosene","type":"n.","meaning":"dầu hỏa"},
+            {"id":431,"word":"loop","type":"n.","meaning":"vòng lặp, cái khâu"},
+            {"id":432,"word":"middle","type":"n.","meaning":"ở giữa, trung tâm"},
+            {"id":433,"word":"option","type":"n.","meaning":"sự lựa chọn"},
+            {"id":434,"word":"paddle","type":"n.","meaning":"mái chèo"},
+            {"id":435,"word":"pastime","type":"n.","meaning":"trò tiêu khiển, thú vui"},
+            {"id":436,"word":"perfect","type":"adj.","meaning":"hoàn hảo"},
+            {"id":437,"word":"pinpoint","type":"v.","meaning":"xác định chính xác"},
+            {"id":438,"word":"sour","type":"adj.","meaning":"chua"},
+            {"id":439,"word":"stake","type":"n.","meaning":"cái cọc, tiền cược"},
+            {"id":440,"word":"steward","type":"n.","meaning":"người phục vụ (trên tàu, máy bay)"},
+            {"id":441,"word":"string","type":"n.","meaning":"dây, sợi dây"},
+            {"id":442,"word":"switch","type":"v.","meaning":"chuyển đổi, công tắc"},
+            {"id":443,"word":"thorn","type":"n.","meaning":"cái gai"},
+            {"id":444,"word":"torment","type":"v.","meaning":"dằn vặt, làm đau khổ"},
+            {"id":445,"word":"abrupt","type":"adj.","meaning":"đột ngột, bất ngờ"},
+            {"id":446,"word":"agony","type":"n.","meaning":"sự đau đớn tột cùng"},
+            {"id":447,"word":"assassin","type":"n.","meaning":"kẻ ám sát, sát thủ"},
+            {"id":448,"word":"beard","type":"n.","meaning":"râu"},
+            {"id":449,"word":"beast","type":"n.","meaning":"quái vật, con thú"},
+            {"id":450,"word":"chapel","type":"n.","meaning":"nhà nguyện"},
+            {"id":451,"word":"commentator","type":"n.","meaning":"bình luận viên"},
+            {"id":452,"word":"con","type":"v.","meaning":"lừa gạt, lừa đảo"},
+            {"id":453,"word":"consensus","type":"n.","meaning":"sự đồng thuận, nhất trí"},
+            {"id":454,"word":"conspiracy","type":"n.","meaning":"âm mưu"},
+            {"id":455,"word":"coup","type":"n.","meaning":"cuộc đảo chính"},
+            {"id":456,"word":"cynical","type":"adj.","meaning":"hoài nghi, yếm thế"},
+            {"id":457,"word":"dome","type":"n.","meaning":"mái vòm"},
+            {"id":458,"word":"exclaim","type":"v.","meaning":"kêu lên, la lên"},
+            {"id":459,"word":"forum","type":"n.","meaning":"diễn đàn"},
+            {"id":460,"word":"glamour","type":"n.","meaning":"vẻ quyến rũ, hào nhoáng"},
+            {"id":461,"word":"harass","type":"v.","meaning":"quấy rối, làm phiền"},
+            {"id":462,"word":"illuminate","type":"v.","meaning":"chiếu sáng, làm sáng tỏ"},
+            {"id":463,"word":"inflame","type":"v.","meaning":"kích động, làm bùng cháy"},
+            {"id":464,"word":"melody","type":"n.","meaning":"giai điệu"},
+            {"id":465,"word":"climate change","type":"n.p","meaning":"biến đổi khí hậu"},
+            {"id":466,"word":"deforestation","type":"n.","meaning":"nạn phá rừng"},
+            {"id":467,"word":"disease","type":"n.","meaning":"bệnh tật"},
+            {"id":468,"word":"economic crisis","type":"n.p","meaning":"khủng hoảng kinh tế"},
+            {"id":469,"word":"endangered species","type":"n.p","meaning":"các loài có nguy cơ tuyệt chủng"},
+            {"id":470,"word":"an epidemic","type":"n.p","meaning":"dịch bệnh"},
+            {"id":471,"word":"extreme temperatures","type":"n.p","meaning":"nhiệt độ khắc nghiệt"},
+            {"id":472,"word":"fossil fuel emissions","type":"n.p","meaning":"khí thải từ nhiên liệu hóa thạch"},
+            {"id":473,"word":"global warming","type":"n.p","meaning":"sự nóng lên toàn cầu"},
+            {"id":474,"word":"homelessness","type":"n.","meaning":"tình trạng vô gia cư"},
+            {"id":475,"word":"a poor harvest","type":"n.p","meaning":"một mùa màng thất bát"},
+            {"id":476,"word":"migration","type":"n.","meaning":"sự di cư"},
+            {"id":477,"word":"poverty","type":"n.","meaning":"sự nghèo đói"},
+            {"id":478,"word":"refugees","type":"n.","meaning":"người tị nạn"},
+            {"id":479,"word":"a tsunami","type":"n.p","meaning":"một trận sóng thần"},
+            {"id":480,"word":"unemployment","type":"n.","meaning":"tình trạng thất nghiệp"}
+        ];
+
+        let vocabTimerInterval;
+        let currentVocabTest = [];
+
+        // --- NAVIGATION FUNCTIONS ---
+        function showHome() {
+            stopAllAudio();
+            document.querySelectorAll('.page-content, #chapter-selection').forEach(el => el.style.display = 'none');
+            document.getElementById('page-selection').style.display = 'block';
+            if (vocabTimerInterval) {
+                clearInterval(vocabTimerInterval);
+                const timerEl = document.getElementById('vocab-timer');
+                if (timerEl) timerEl.remove();
+            }
+        }
+
         function showChapters() {
             stopAllAudio();
-            document.getElementById('page-selection').style.display = 'none';
+            document.querySelectorAll('.page-content, #page-selection').forEach(el => el.style.display = 'none');
             document.getElementById('chapter-selection').style.display = 'block';
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.style.display = 'none';
-            });
         }
 
         function showPage(pageId) {
             stopAllAudio();
-            document.getElementById('page-selection').style.display = 'none';
-            document.getElementById('chapter-selection').style.display = 'none';
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.style.display = 'none';
-            });
+            document.querySelectorAll('.page-content, #chapter-selection, #page-selection').forEach(el => el.style.display = 'none');
             const pageToShow = document.getElementById(pageId);
             pageToShow.style.display = 'block';
 
@@ -513,37 +1034,20 @@
             }
         }
 
-        function showHome() {
+        function showDictationList(pageId) {
             stopAllAudio();
-            document.getElementById('page-selection').style.display = 'block';
-            document.getElementById('chapter-selection').style.display = 'none';
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.style.display = 'none';
-            });
+            const page = document.getElementById(pageId);
+            page.querySelectorAll('.dictation-exercise-content').forEach(ex => ex.style.display = 'none');
+            const list = page.querySelector('div[id$="-list"]');
+            if (list) list.style.display = 'block';
         }
 
         function showDictationExercise(exerciseId) {
             stopAllAudio();
             const exercise = document.getElementById(exerciseId);
             const parentPage = exercise.closest('.page-content');
-            
             parentPage.querySelector('div[id$="-list"]').style.display = 'none';
-
             exercise.style.display = 'block';
-        }
-
-        function showDictationList(pageId) {
-            stopAllAudio();
-            const page = document.getElementById(pageId);
-
-            page.querySelectorAll('.dictation-exercise-content').forEach(ex => {
-                ex.style.display = 'none';
-            });
-            
-            const list = page.querySelector('div[id$="-list"]');
-            if (list) {
-                list.style.display = 'block';
-            }
         }
 
         function stopAllAudio() {
@@ -553,7 +1057,8 @@
             });
         }
         
-        function checkAnswers(button) {
+        // --- DICTATION CHECKING ---
+        function checkDictationAnswers(button) {
             const exerciseCard = button.closest('.question-card');
             const inputs = exerciseCard.querySelectorAll('.fill-in-blank');
             const resultsContainer = exerciseCard.querySelector('.results');
@@ -583,7 +1088,6 @@
                 });
             });
 
-            // Clear previous results and create new elements
             resultsContainer.innerHTML = '';
             
             const container = document.createElement('div');
@@ -593,50 +1097,235 @@
             resultText.className = "text-lg font-semibold";
             resultText.textContent = `Kết quả: Bạn đã đúng ${score}/${total} câu.`;
 
-            const exportButton = document.createElement('button');
-            exportButton.className = "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
-            exportButton.textContent = "Xuất Excel";
+            const exportButton = createExportButton(excelData, `ket_qua_${exerciseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`);
             
-            exportButton.onclick = function() {
-                try {
-                    const worksheet = XLSX.utils.json_to_sheet(excelData);
-                    const workbook = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(workbook, worksheet, "Kết quả Dictation");
-
-                    // Auto-fit columns
-                    const objectMaxLength = [];
-                    excelData.forEach(obj => {
-                        Object.keys(obj).forEach((key, i) => {
-                            const value = obj[key] ? obj[key].toString() : '';
-                            let headerLength = key.length;
-                            let valueLength = value.length;
-
-                            if (!objectMaxLength[i] || objectMaxLength[i] < headerLength) {
-                                objectMaxLength[i] = headerLength;
-                            }
-                            if (objectMaxLength[i] < valueLength) {
-                                objectMaxLength[i] = valueLength;
-                            }
-                        });
-                    });
-                    worksheet["!cols"] = objectMaxLength.map(w => ({ wch: w + 2 }));
-
-                    const safeFileName = exerciseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                    XLSX.writeFile(workbook, `ket_qua_${safeFileName}.xlsx`);
-
-                } catch (err) {
-                    console.error("Error creating Excel file:", err);
-                    alert("Không thể tạo file Excel. Vui lòng thử lại trên trình duyệt khác.");
-                }
-            };
-
             container.appendChild(resultText);
             container.appendChild(exportButton);
             resultsContainer.appendChild(container);
             resultsContainer.style.display = 'block';
         }
-    </script>
+        
+        // --- VOCABULARY TEST FUNCTIONS ---
+        function startVocabTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            vocabTimerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
 
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(vocabTimerInterval);
+                    display.textContent = "Hết giờ!";
+                    checkVocabAnswers(true); // Auto-submit
+                }
+            }, 1000);
+        }
+
+        function startVocabTest() {
+            document.getElementById('vocab-start-container').classList.add('hidden');
+            document.getElementById('vocab-quiz-container').classList.remove('hidden');
+
+            const shuffled = [...vocabularyList].sort(() => 0.5 - Math.random());
+            currentVocabTest = shuffled.slice(0, 150);
+
+            const questionsContainer = document.getElementById('vocab-questions');
+            questionsContainer.innerHTML = '';
+            currentVocabTest.forEach((item, index) => {
+                const questionHTML = `
+                    <div class="bg-white p-3 rounded-lg shadow-sm flex flex-col sm:flex-row items-center gap-2">
+                        <span class="font-semibold text-gray-700 w-full sm:w-1/3">${index + 1}. ${item.word} (${item.type}):</span>
+                        <input type="text" data-word-id="${item.id}" class="vocab-answer-input flex-grow border border-gray-300 rounded p-2 w-full" placeholder="Nhập nghĩa tiếng Việt...">
+                    </div>
+                `;
+                questionsContainer.innerHTML += questionHTML;
+            });
+
+            const twentyMinutes = 60 * 20;
+            const timerDisplay = document.getElementById('vocab-timer');
+            startVocabTimer(twentyMinutes, timerDisplay);
+        }
+
+        function checkVocabAnswers(isAutoSubmit = false) {
+            if (isAutoSubmit && !document.getElementById('vocab-results-container').innerHTML) {
+                 alert("Hết giờ! Bài của bạn sẽ được nộp tự động.");
+            }
+            clearInterval(vocabTimerInterval);
+            const timerEl = document.getElementById('vocab-timer');
+            if(timerEl) timerEl.remove();
+            
+            const inputs = document.querySelectorAll('.vocab-answer-input');
+            const resultsContainer = document.getElementById('vocab-results-container');
+            document.getElementById('vocab-quiz-container').classList.add('hidden');
+            resultsContainer.innerHTML = '';
+
+            let score = 0;
+            const total = currentVocabTest.length;
+            const excelData = [];
+
+            inputs.forEach((input, index) => {
+                const userAnswer = input.value.trim();
+                if (!userAnswer) { // Handle empty answers
+                    input.dataset.isCorrect = 'false';
+                    return;
+                }
+
+                const wordId = parseInt(input.dataset.wordId);
+                const correctItem = vocabularyList.find(item => item.id === wordId);
+                const correctAnswers = correctItem.meaning.split(/[,;/]/).map(s => s.trim().replace(/[()]/g, ''));
+
+                let isCorrect = false;
+                for (const answer of correctAnswers) {
+                    if (isAnswerSimilar(userAnswer, answer)) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+                input.dataset.isCorrect = isCorrect;
+            });
+
+
+            inputs.forEach((input, index) => {
+                const wordId = parseInt(input.dataset.wordId);
+                const correctItem = vocabularyList.find(item => item.id === wordId);
+                const isCorrect = input.dataset.isCorrect === 'true';
+                
+                let resultHTML = '';
+                if (isCorrect) {
+                    score++;
+                    resultHTML = `
+                        <div class="p-3 rounded-lg bg-green-100 border border-green-300 flex flex-col sm:flex-row gap-2">
+                           <p class="w-full"><b>${index + 1}. ${correctItem.word}:</b> <span class="text-green-700">${input.value} (Đúng)</span></p>
+                        </div>
+                    `;
+                } else {
+                     resultHTML = `
+                        <div class="p-3 rounded-lg bg-red-100 border border-red-300 flex flex-col sm:flex-row gap-2">
+                            <div class="w-full">
+                               <p><b>${index + 1}. ${correctItem.word}:</b> <span class="text-red-700 line-through">${input.value || "<i>(bỏ trống)</i>"}</span></p>
+                               <p class="text-sm text-gray-600"><b>Đáp án đúng:</b> ${correctItem.meaning}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                resultsContainer.innerHTML += resultHTML;
+                 excelData.push({
+                    'STT': index + 1,
+                    'Từ vựng': correctItem.word,
+                    'Câu trả lời của bạn': input.value,
+                    'Đáp án đúng': correctItem.meaning,
+                    'Kết quả': isCorrect ? 'Đúng' : 'Sai'
+                });
+            });
+
+
+            const summaryContainer = document.createElement('div');
+            summaryContainer.className = 'my-6 p-6 bg-blue-100 rounded-lg text-center';
+
+            const resultText = document.createElement('p');
+            resultText.className = "text-2xl font-bold text-blue-800";
+            resultText.innerHTML = `Kết quả: Bạn đã đúng <span class="text-green-600">${score}</span>/<span class="text-red-600">${total}</span> câu.`;
+            
+            const exportButton = createExportButton(excelData, 'ket_qua_kiem_tra_tu_vung');
+            exportButton.className = "mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
+
+            summaryContainer.appendChild(resultText);
+            summaryContainer.appendChild(exportButton);
+            resultsContainer.insertAdjacentElement('afterbegin', summaryContainer);
+        }
+
+        // --- UTILITY FUNCTIONS ---
+        function createExportButton(data, filename) {
+             const exportButton = document.createElement('button');
+             exportButton.className = "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
+             exportButton.textContent = "Xuất Excel";
+             
+             exportButton.onclick = function() {
+                 try {
+                     const worksheet = XLSX.utils.json_to_sheet(data);
+                     const workbook = XLSX.utils.book_new();
+                     XLSX.utils.book_append_sheet(workbook, worksheet, "Kết quả");
+
+                     const objectMaxLength = [];
+                     data.forEach(obj => {
+                         Object.keys(obj).forEach((key, i) => {
+                             const value = obj[key] ? obj[key].toString() : '';
+                             let headerLength = key.length;
+                             let valueLength = value.length;
+                             if (!objectMaxLength[i] || objectMaxLength[i] < headerLength) {
+                                 objectMaxLength[i] = headerLength;
+                             }
+                             if (objectMaxLength[i] < valueLength) {
+                                 objectMaxLength[i] = valueLength;
+                             }
+                         });
+                     });
+                     worksheet["!cols"] = objectMaxLength.map(w => ({ wch: w + 2 }));
+
+                     XLSX.writeFile(workbook, `${filename}.xlsx`);
+
+                 } catch (err) {
+                     console.error("Error creating Excel file:", err);
+                     alert("Không thể tạo file Excel. Vui lòng thử lại trên trình duyệt khác.");
+                 }
+             };
+             return exportButton;
+        }
+
+        function normalizeVietnamese(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/đ/g, "d");
+        }
+        
+        function levenshteinDistance(a, b) {
+            const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+            for (let i = 0; i <= a.length; i += 1) {
+                matrix[0][i] = i;
+            }
+            for (let j = 0; j <= b.length; j += 1) {
+                matrix[j][0] = j;
+            }
+            for (let j = 1; j <= b.length; j += 1) {
+                for (let i = 1; i <= a.length; i += 1) {
+                    const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+                    matrix[j][i] = Math.min(
+                        matrix[j][i - 1] + 1,
+                        matrix[j - 1][i] + 1,
+                        matrix[j - 1][i - 1] + indicator,
+                    );
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+
+        function isAnswerSimilar(userAnswer, correctAnswer) {
+            const normalizedUser = normalizeVietnamese(userAnswer);
+            const normalizedCorrect = normalizeVietnamese(correctAnswer);
+
+            // 1. Check for exact match after normalization
+            if (normalizedUser === normalizedCorrect) {
+                return true;
+            }
+
+            // 2. Check for Levenshtein distance to allow for typos
+            const distance = levenshteinDistance(normalizedUser, normalizedCorrect);
+            // Allow 1 typo for short words, 2 for longer ones
+            const threshold = normalizedCorrect.length <= 5 ? 1 : 2;
+            
+            if (distance <= threshold) {
+                return true;
+            }
+
+            return false;
+        }
+
+    </script>
 </body>
 </html>
-
