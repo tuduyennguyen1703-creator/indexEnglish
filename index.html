@@ -77,9 +77,9 @@
                     <p class="text-gray-600">Bắt đầu làm bài tập</p>
                 </div>
             </div>
-             <!-- Fun image in the corner -->
-            <img src="anh/Thang 9.jpg" alt="Fun character" class="absolute bottom-0 right-0 w-50 md:w-40 transform rotate-00 hidden sm:block pointer-events-none">
-            <img src="anh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-left-0 w-50 md:w-40 transform rotate-00 hidden sm:block pointer-events-none">
+             <!-- Fun images in the corners -->
+            <img src="anh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-0 left-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
+            <img src="anh/Thang 9.jpg" alt="Fun character" class="absolute bottom-0 right-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
         </div>
         
         <!-- Chapter Selection -->
@@ -490,6 +490,7 @@
 
     <script>
         function showChapters() {
+            stopAllAudio();
             document.getElementById('page-selection').style.display = 'none';
             document.getElementById('chapter-selection').style.display = 'block';
             document.querySelectorAll('.page-content').forEach(page => {
@@ -498,6 +499,7 @@
         }
 
         function showPage(pageId) {
+            stopAllAudio();
             document.getElementById('page-selection').style.display = 'none';
             document.getElementById('chapter-selection').style.display = 'none';
             document.querySelectorAll('.page-content').forEach(page => {
@@ -512,6 +514,7 @@
         }
 
         function showHome() {
+            stopAllAudio();
             document.getElementById('page-selection').style.display = 'block';
             document.getElementById('chapter-selection').style.display = 'none';
             document.querySelectorAll('.page-content').forEach(page => {
@@ -520,6 +523,7 @@
         }
 
         function showDictationExercise(exerciseId) {
+            stopAllAudio();
             const exercise = document.getElementById(exerciseId);
             const parentPage = exercise.closest('.page-content');
             
@@ -529,6 +533,7 @@
         }
 
         function showDictationList(pageId) {
+            stopAllAudio();
             const page = document.getElementById(pageId);
 
             page.querySelectorAll('.dictation-exercise-content').forEach(ex => {
@@ -539,6 +544,13 @@
             if (list) {
                 list.style.display = 'block';
             }
+        }
+
+        function stopAllAudio() {
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
         }
         
         function checkAnswers(button) {
