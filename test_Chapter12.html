@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Tiếng Anh Cùng Nguyễn Duyên - IELTS Listening</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .page-content, .dictation-exercise-content, #chapter-selection {
+            display: none;
+        }
+        .chapter-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .question-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .question-header {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e40af;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .question-instruction {
+            font-style: italic;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+        .fill-in-blank {
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            width: 100px;
+            text-align: center;
+            margin: 0 4px;
+            padding: 2px 0;
+            outline: none;
+            display: inline-block;
+            transition: border-color 0.2s;
+        }
+        .fill-in-blank:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-5xl mx-auto relative">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-red-800">Học Tiếng Anh Cùng Nguyễn Duyên</h1>
+            <p class="text-lg text-gray-600 mt-2">Luyện Tập Vui Vẻ Nhé Mặc Dù Biết Bạn Đang Rất Nản</p>
+        </header>
+        
+        <!-- New Main Page Selection -->
+        <div id="page-selection" style="display: block;" class="relative pb-24">
+            <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Sách Luyện Tập</h2>
+            <div class="flex justify-center">
+                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showChapters()">
+                    <h3 class="text-2xl font-bold text-green-700 mb-2">HACKER IELTS Listening Book</h3>
+                    <p class="text-gray-600">Bắt đầu làm bài tập</p>
+                </div>
+            </div>
+             <!-- Fun image in the corner -->
+            <img src="ảnh/Thang 9.jpg" alt="Fun character" class="absolute bottom-0 right-0 w-50 md:w-40 transform rotate-00 hidden sm:block pointer-events-none">
+            <img src="ảnh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-left-0 w-50 md:w-40 transform rotate-00 hidden sm:block pointer-events-none">
+        </div>
+        
+        <!-- Chapter Selection -->
+        <div id="chapter-selection">
+            <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showHome()">
+                &larr; Quay lại Trang chủ
+            </button>
+            <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Chọn một chương để bắt đầu</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <!-- Chapter 1 Card -->
+                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('chapter1')">
+                    <h3 class="text-2xl font-bold text-blue-700 mb-2">Chapter 1</h3>
+                    <p class="text-gray-600">Multiple Choice & Fill in the Blanks</p>
+                </div>
+                 <!-- Dictation Chapter 1 Card -->
+                <div class="chapter-card bg-white rounded-xl p-8 cursor-pointer text-center" onclick="showPage('dictation1')">
+                    <h3 class="text-2xl font-bold text-purple-700 mb-2">Dictation Chapter 1</h3>
+                    <p class="text-gray-600">Luyện nghe chép chính tả</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 1 Content -->
+        <div id="chapter1" class="page-content">
+            <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showChapters()">
+                &larr; Quay lại Chọn Chương
+            </button>
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Chapter 1: Multiple Choice</h2>
+
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 1-4</h3>
+                 <audio controls class="w-full mb-4"><source src="CH1_HP1-4.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose the correct letter, A, B or C.</p>
+                <div class="space-y-4">
+                    <p><b>1.</b> Alex is mostly interested in seeing</p><p class="ml-6"><b>A.</b> art galleries.</p> <p class="ml-6"><b>B.</b> contemporary culture.</p> <p class="ml-6"><b>C.</b> historical sites.</p>
+                    <p><b>2.</b> The 'Top Spots' half-day tour begins at</p><p class="ml-6"><b>A.</b> 7 am.</p> <p class="ml-6"><b>B.</b> 9 am.</p> <p class="ml-6"><b>C.</b> 2 pm.</p>
+                    <p><b>3.</b> How much will Alex have to pay for his tour?</p><p class="ml-6"><b>A.</b> $25</p> <p class="ml-6"><b>B.</b> $45</p> <p class="ml-6"><b>C.</b> $70</p>
+                    <p><b>4.</b> What will the guide for the Thursday tour be doing at Central Station?</p><p class="ml-6"><b>A.</b> displaying a company sign</p> <p class="ml-6"><b>B.</b> distributing apparel to participants</p> <p class="ml-6"><b>C.</b> collecting payments from participants</p>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 5-7</h3>
+                <audio controls class="w-full mb-4"><source src="CH1_HP5-7.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose THREE letters, A-G.</p>
+                <p><b>5-7.</b> Which THREE things does the speaker say travellers should make sure to do when making payments overseas?</p>
+                <div class="space-y-2 ml-6"><p><b>A.</b> take advantage of tax refunds</p> <p><b>B.</b> get the correct change</p> <p><b>C.</b> pay with money rather than cards</p> <p><b>D.</b> avoid counterfeit cash</p> <p><b>E.</b> pay credit card fees</p> <p><b>F.</b> get a good exchange rate</p> <p><b>G.</b> pay traveller taxes</p></div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 8-11</h3>
+                <audio controls class="w-full mb-4"><source src="CH1_HP8-11.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose the correct letter, A, B or C.</p>
+                <div class="space-y-4">
+                    <p><b>8.</b> Guests can inquire about routes at the</p><p class="ml-6"><b>A.</b> visitor centre.</p> <p class="ml-6"><b>B.</b> climbing office.</p> <p class="ml-6"><b>C.</b> gift shop.</p>
+                    <p><b>9.</b> Devils Tower was made a national monument because of its importance to</p><p class="ml-6"><b>A.</b> previous explorers.</p> <p class="ml-6"><b>B.</b> rock climbers.</p> <p class="ml-6"><b>C.</b> native people.</p>
+                    <p><b>10.</b> According to the speaker, why was the formation called Devils Tower?</p><p class="ml-6"><b>A.</b> Its name was misinterpreted.</p> <p class="ml-6"><b>B.</b> Its summit is difficult to reach.</p> <p class="ml-6"><b>C.</b> Its trails can be dangerous.</p>
+                    <p><b>11.</b> Visitors are not allowed to</p><p class="ml-6"><b>A.</b> bring food into the park.</p> <p class="ml-6"><b>B.</b> give food to wildlife.</p> <p class="ml-6"><b>C.</b> leave the marked trails.</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 12-16</h3>
+                <audio controls class="w-full mb-4"><source src="CH1_HP12-16.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose TWO letters, A-E.</p>
+                <p><b>12-13.</b> Which TWO aspects of the programme was Laura particularly positive about?</p>
+                <div class="space-y-2 ml-6"><p><b>A.</b> the application process</p><p><b>B.</b> the quality of the lectures</p><p><b>C.</b> the advice on her thesis</p><p><b>D.</b> the expertise of the professors</p><p><b>E.</b> the field trips</p></div>
+                <hr class="my-6">
+                <p class="question-instruction">Choose the correct letter, A, B or C.</p>
+                <div class="space-y-4">
+                    <p><b>14.</b> Laura says that the psychometrics course</p><p class="ml-6"><b>A.</b> involved difficult topics.</p><p><b>B.</b> was not too complex.</p><p><b>C.</b> was for advanced students.</p>
+                    <p><b>15.</b> Why does Laura recommend the adult counselling course to John?</p><p class="ml-6"><b>A.</b> It is the focus of John's study.</p><p><b>B.</b> It is highly praised by the school.</p><p><b>C.</b> It involves fewer assignments.</p>
+                    <p><b>16.</b> How does the psychology course differ in Singapore compared to the UK?</p><p class="ml-6"><b>A.</b> There is less data to learn.</p><p><b>B.</b> The course is less theoretical.</p><p><b>C.</b> They have to learn statistics.</p>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 17-20</h3>
+                <audio controls class="w-full mb-4"><source src="CH1_HP17-20.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose the correct letter, A, B, or C.</p>
+                <div class="space-y-4">
+                    <p><b>17.</b> Alice's biometric access system will</p><p class="ml-6"><b>A.</b> use drivers' thumbprints to open car locks.</p><p><b>B.</b> scan the driver's eyes to unlock the car.</p><p><b>C.</b> turn on the ignition when someone sits in the car.</p>
+                    <p><b>18.</b> The sponsorship from the university includes</p><p class="ml-6"><b>A.</b> financial support.</p><p><b>B.</b> personal advising.</p><p><b>C.</b> laboratory training.</p>
+                </div>
+                <hr class="my-6">
+                 <p class="question-instruction">Choose TWO letters, A-E.</p>
+                 <p><b>19-20.</b> Which TWO characteristics of the proposal have specific requirements?</p>
+                 <div class="space-y-2 ml-6"><p><b>A.</b> length</p><p><b>B.</b> punctuation</p><p><b>C.</b> file format</p><p><b>D.</b> graphics</p><p><b>E.</b> references</p></div>
+            </div>
+
+            <div class="question-card">
+                <h3 class="question-header">LUYỆN TẬP: Questions 21-25</h3>
+                 <audio controls class="w-full mb-4"><source src="CH1_HP21-25.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                <p class="question-instruction">Choose the correct letter, A, B, or C.</p>
+                <div class="space-y-4">
+                    <p><b>21.</b> One result of high sugar consumption is that</p><p class="ml-6"><b>A.</b> it can cause diabetes.</p><p><b>B.</b> it can lead to other more serious addictions.</p><p><b>C.</b> it is a direct cause for increases in heart rates.</p>
+                    <p><b>22.</b> Why is honey a good alternative to refined sugar?</p><p class="ml-6"><b>A.</b> It tastes the same in drinks.</p><p><b>B.</b> It has fewer calories than sugar.</p><p><b>C.</b> It is more easily processed by the body.</p>
+                    <p><b>23.</b> The speaker says people don't realise</p><p class="ml-6"><b>A.</b> how much water should be consumed in a day.</p><p><b>B.</b> how much sugar a soft drink contains.</p><p><b>C.</b> how many vitamins are in herbal tea.</p>
+                    <p><b>24.</b> Products which are said to be fat-free should be avoided because</p><p class="ml-6"><b>A.</b> they often contain extra sugar.</p><p><b>B.</b> they do not list every ingredient.</p><p><b>C.</b> they are made with sugar substitutes.</p>
+                    <p><b>25.</b> According to the speaker, people should eat fruits and vegetables because</p><p class="ml-6"><b>A.</b> they are a sugarless alternative.</p><p><b>B.</b> they can satisfy the desire for sweetness.</p><p><b>C.</b> they are a natural way to diet.</p>
+                </div>
+            </div>
+
+            <div class="question-card">
+                 <h3 class="question-header">HACKERS TEST: SECTION 2, Questions 1-10</h3>
+                 <audio controls class="w-full mb-4"><source src="CH1_HT1-10.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                 <p class="question-instruction">Questions 1-2: Choose TWO letters, A-E.</p>
+                 <p><b>1-2.</b> Which TWO sports will have national matches played at the Brighton Sports Complex?</p>
+                 <div class="space-y-2 ml-6"><p><b>A.</b> football</p><p><b>B.</b> volleyball</p><p><b>C.</b> tennis</p><p><b>D.</b> swimming</p><p><b>E.</b> basketball</p></div>
+                <hr class="my-6">
+                <p class="question-instruction">Questions 3-5: Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-center mb-2">Brighton Sports Complex: Dining Facilities</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>promote healthy habits by not giving licences to <b>3</b> <input type="text" class="border-b-2 border-gray-300 focus:border-blue-500 outline-none"> establishments</li>
+                        <li>ingredients are from <b>4</b> <input type="text" class="border-b-2 border-gray-300 focus:border-blue-500 outline-none"> areas</li>
+                        <li>located on the <b>5</b> <input type="text" class="border-b-2 border-gray-300 focus:border-blue-500 outline-none"> floor</li>
+                    </ul>
+                </div>
+                 <hr class="my-6">
+                 <p class="question-instruction">Questions 6-10: Choose the correct letter, A, B, or C.</p>
+                 <div class="space-y-4">
+                     <p><b>6.</b> To become a Brighton Sports Complex member, people should</p><p class="ml-6"><b>A.</b> complete a registration document.</p><p><b>B.</b> submit payment at a reception desk.</p><p><b>C.</b> present a credit card for deposit.</p>
+                    <p><b>7.</b> People who wish to use the swimming pool at the complex must</p><p class="ml-6"><b>A.</b> leave their ID card at an office.</p><p><b>B.</b> check availability online.</p><p><b>C.</b> pay an additional yearly charge.</p>
+                    <p><b>8.</b> What will all visitors be able to use for free?</p><p class="ml-6"><b>A.</b> a parking facility</p><p><b>B.</b> a personal locker</p><p><b>C.</b> the Wi-Fi</p>
+                    <p><b>9.</b> Why will it be difficult to park on Millers Road this weekend?</p><p class="ml-6"><b>A.</b> A route has been closed for repairs.</p><p><b>B.</b> A car park will undergo maintenance.</p><p><b>C.</b> A private event is occurring in the complex.</p>
+                    <p><b>10.</b> Attendees of the grand opening can receive</p><p class="ml-6"><b>A.</b> a paid parking pass.</p><p><b>B.</b> apparel for free.</p><p><b>C.</b> protective gear with a logo.</p>
+                 </div>
+            </div>
+
+            <div class="question-card">
+                 <h3 class="question-header">HACKERS TEST: SECTION 3, Questions 11-20</h3>
+                 <audio controls class="w-full mb-4"><source src="CH1_HT11-20.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                 <p class="question-instruction">Questions 11-12: Choose TWO letters, A-E.</p>
+                 <p><b>11-12.</b> Which TWO tasks the students have already completed?</p>
+                 <div class="space-y-2 ml-6"><p><b>A.</b> an outline for the assignment's structure</p><p><b>B.</b> the central part of the document</p><p><b>C.</b> the introduction to their report</p><p><b>D.</b> data gathering on globalised businesses</p><p><b>E.</b> a summary of their research methodology</p></div>
+                 <hr class="my-6">
+                 <p class="question-instruction">Questions 13-14: Choose TWO letters, A-E.</p>
+                 <p><b>13-14.</b> Which TWO effects did Burger King's approach have when it launched restaurants in India?</p>
+                 <div class="space-y-2 ml-6"><p><b>A.</b> positive opinion of the brand around India</p><p><b>B.</b> stores spread throughout the region</p><p><b>C.</b> certain products put off consumers</p><p><b>D.</b> enhanced image in neighbouring countries</p><p><b>E.</b> its menu was seen as inappropriate</p></div>
+                 <hr class="my-6">
+                 <p class="question-instruction">Questions 15-16: Choose TWO letters, A-E.</p>
+                 <p><b>15-16.</b> Which TWO elements of its ads did a Swedish vodka company change for each region?</p>
+                 <div class="space-y-2 ml-6"><p><b>A.</b> the type of graphics used</p><p><b>B.</b> the language of promotional material</p><p><b>C.</b> the size of printed advertisements</p><p><b>D.</b> the colours used in materials</p><p><b>E.</b> the brand names of products</p></div>
+                <hr class="my-6">
+                 <p class="question-instruction">Questions 17-20: Choose the correct letter, A, B, or C.</p>
+                 <div class="space-y-4">
+                     <p><b>17.</b> The advertisements shown for Calvin Klein caused problems because</p><p class="ml-6"><b>A.</b> they were considered not contemporary enough.</p><p><b>B.</b> they focused too much on younger consumers.</p><p><b>C.</b> they were deemed inappropriate by some consumers.</p>
+                     <p><b>18.</b> A design feature that Calvin Klein introduced in its 2013 line was</p><p class="ml-6"><b>A.</b> new and brighter colours.</p><p><b>B.</b> clothes tailored to each age group.</p><p><b>C.</b> aspects of traditional outfits.</p>
+                     <p><b>19.</b> How will the students include graphs in their report?</p><p class="ml-6"><b>A.</b> in an appendix at the end</p><p><b>B.</b> in a separate printed leaflet</p><p><b>C.</b> inserted throughout the text</p>
+                     <p><b>20.</b> What will the students probably do next?</p><p class="ml-6"><b>A.</b> find images to use for their assignment</p><p><b>B.</b> go to a library to check out reference books</p><p><b>C.</b> create their own marketing plan</p>
+                 </div>
+            </div>
+
+        </div>
+
+        <!-- Dictation Chapter 1 Content -->
+        <div id="dictation1" class="page-content">
+             <div id="dictation1-list">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showChapters()">
+                    &larr; Quay lại Chọn Chương
+                </button>
+                <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">Dictation Chapter 1: Chọn bài tập</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp1-4')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP1-4</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp5-7')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP5-7</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp8-11')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP8-11</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp12-16')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP12-16</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp17-20')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP17-20</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-hp21-25')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HP21-25</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht1-10')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HT1-10</h3>
+                    </div>
+                    <div class="chapter-card bg-white p-6 cursor-pointer text-center" onclick="showDictationExercise('dictation-ch1-ht11-20')">
+                        <h3 class="font-bold text-lg text-purple-800">Bài tập: CH1_HT11-20</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual Dictation Exercises for Chapter 1 -->
+            <div id="dictation-ch1-hp1-4" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP1-4</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP1-4.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-relaxed">
+                         <p><b>W:</b> Thank you for <input type="text" class="fill-in-blank" data-answer="contacting"> Sunwave Tours. How may I help you?</p>
+                         <p><b>M:</b> Hi. My name is Alex. I'm here in Melbourne for <input type="text" class="fill-in-blank" data-answer="work"> until this Saturday, and I'd <input type="text" class="fill-in-blank" data-answer="like"> to go on the city <input type="text" class="fill-in-blank" data-answer="tour"> that I saw advertised in your flyer. I'm <input type="text" class="fill-in-blank" data-answer="available"> on either Wednesday or Thursday.</p>
+                         <p><b>W:</b> We can certainly <input type="text" class="fill-in-blank" data-answer="accommodate"> that. What in our city are you interested in <input type="text" class="fill-in-blank" data-answer="seeing">?</p>
+                         <p><b>M:</b> Well, I am curious about both historical <input type="text" class="fill-in-blank" data-answer="sites"> and contemporary culture. But I'm also interested in old <input type="text" class="fill-in-blank" data-answer="architecture">. So, I do want to tour some art galleries more than <input type="text" class="fill-in-blank" data-answer="anything">. I heard that there's a national art gallery in the city.</p>
+                         <p><b>W:</b> Yes, there is. I'd actually recommend our 'Top Spots' tour. It <input type="text" class="fill-in-blank" data-answer="starts"> just in front of our office on Elizabeth Street and concludes at the National Gallery of Victoria. And there are lots of places to get <input type="text" class="fill-in-blank" data-answer="lunch"> in that area afterward.</p>
+                         <p><b>M:</b> That really sounds ideal! And what does the tour <input type="text" class="fill-in-blank" data-answer="cost">?</p>
+                         <p><b>W:</b> Let's see... It's $55 for the half-day... that runs for a <input type="text" class="fill-in-blank" data-answer="total"> of about 5 hours. Or, there is our full-day tour that costs a bit <input type="text" class="fill-in-blank" data-answer="more">. It includes a 7-hour tour with a free lunch.</p>
+                         <p><b>M:</b> Seems reasonable enough. What time does the half-day tour start?</p>
+                         <p><b>W:</b> It's from 9 am to 2 pm this Wednesday. The guide for this tour likes to start <input type="text" class="fill-in-blank" data-answer="earlier"> in the day so that you can see the sunlight <input type="text" class="fill-in-blank" data-answer="shines"> on the major landmarks at optimal times.</p>
+                         <p><b>M:</b> That might be a bit too early for me.</p>
+                         <p><b>W:</b> Then you might like the 'Major Views' full-day tour this Thursday. That tour also <input type="text" class="fill-in-blank" data-answer="stops"> by the National Gallery of Victoria but takes you up to popular viewing spots where you can see the city's most famous <input type="text" class="fill-in-blank" data-answer="landmarks">. It starts in the morning too at 11 am, but the bulk of it takes place in the <input type="text" class="fill-in-blank" data-answer="afternoon">, ending at 6 pm. The guide will also take you to a nice restaurant for lunch.</p>
+                         <p><b>M:</b> Oh, all right. Mmm, I reckon the Thursday tour will <input type="text" class="fill-in-blank" data-answer="suit"> me best. What is the cost for that tour?</p>
+                         <p><b>W:</b> It's $70 per <input type="text" class="fill-in-blank" data-answer="person">. But we have a special this month; you get $25 off if you make at least two <input type="text" class="fill-in-blank" data-answer="bookings">.</p>
+                         <p><b>M:</b> That seems reasonable. However, I'm the only person, so please book just one <input type="text" class="fill-in-blank" data-answer="spot"> for me.</p>
+                         <p><b>W:</b> Great. What's your name and phone number?</p>
+                         <p><b>M:</b> Alex Fenway. F-E-N-W-A-Y. And my mobile <input type="text" class="fill-in-blank" data-answer="number"> is 555 671 920.</p>
+                         <p><b>W:</b> Thank you, Alex. On the day of the tour, there will be a guide at Central Station to meet you. The guide will be <input type="text" class="fill-in-blank" data-answer="holding"> a large sign and wearing a T-shirt with Sunwave Tours printed on it.</p>
+                         <p><b>M:</b> Great. Thanks for all your <input type="text" class="fill-in-blank" data-answer="help">.</p>
+                      </div>
+                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-hp5-7" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP5-7</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP5-7.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                         <p>
+                             Good <input type="text" class="fill-in-blank" data-answer="afternoon">. Thanks for <input type="text" class="fill-in-blank" data-answer="listening"> to today's <input type="text" class="fill-in-blank" data-answer="broadcast"> of 'Smart Shopping'. As we head into the winter season, many of you will be <input type="text" class="fill-in-blank" data-answer="travelling"> out of the country for your annual <input type="text" class="fill-in-blank" data-answer="holidays">. And while away, you're likely to buy some <input type="text" class="fill-in-blank" data-answer="souvenirs"> to bring back with you. On today's <input type="text" class="fill-in-blank" data-answer="programme">, I'm going to give you some tips on what to be <input type="text" class="fill-in-blank" data-answer="cautious"> of and how to make good <input type="text" class="fill-in-blank" data-answer="purchases"> while abroad.
+                         </p>
+                         <p>
+                             So, my first point is about <input type="text" class="fill-in-blank" data-answer="payment">. Tourists from the UK are mainly <input type="text" class="fill-in-blank" data-answer="accustomed"> to pulling out a credit card and charging just about <input type="text" class="fill-in-blank" data-answer="everything">. Well, that's not such a good idea when <input type="text" class="fill-in-blank" data-answer="overseas"> for two <input type="text" class="fill-in-blank" data-answer="reasons">. First, there is a lot of credit card <input type="text" class="fill-in-blank" data-answer="fraud">. Credit card usage is simply not <input type="text" class="fill-in-blank" data-answer="secure">. Secondly, the seller will have to <input type="text" class="fill-in-blank" data-answer="charge"> you anywhere between 3 and 5% more in credit card fees that they must pay to credit card <input type="text" class="fill-in-blank" data-answer="companies">. So, use cash if at all <input type="text" class="fill-in-blank" data-answer="possible">.
+                         </p>
+                         <p>
+                             And that brings me to my next word of <input type="text" class="fill-in-blank" data-answer="advice">; check the exchange rates offered for your <input type="text" class="fill-in-blank" data-answer="currency"> before making payments by cash or even credit cards. Some <input type="text" class="fill-in-blank" data-answer="establishments"> offer poor rates, so it is better to exchange your money in a bank which ensures better rates, and use local currency in those cases.
+                         </p>
+                         <p>
+                             Also, it is always a good idea to get tax <input type="text" class="fill-in-blank" data-answer="refunds"> for your purchases when possible, as it can save you a lot of money. International travellers are often <input type="text" class="fill-in-blank" data-answer="eligible"> for these refunds in many locations and won't have to pay taxes on the items they buy. Find out ahead of time what the minimum purchase amount is and what types of purchases are eligible. And don't forget to claim your refunds at your point of <input type="text" class="fill-in-blank" data-answer="departure"> before checking in, as you may have to show the purchases to agents along with original receipts.
+                         </p>
+                         <p>
+                             But there are many items that you are not permitted to transport on planes or trains. So, I also want to cover...
+                         </p>
+                      </div>
+                     <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-hp8-11" class="dictation-exercise-content">
+                 <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                 <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP8-11</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP8-11.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                        <p>
+                             Welcome, everyone, to Devils Tower National <input type="text" class="fill-in-blank" data-answer="Monument">. Not only can you view the famous Devils Tower rock <input type="text" class="fill-in-blank" data-answer="formation">, but there are lots of great routes for <input type="text" class="fill-in-blank" data-answer="hiking"> and rock-climbing here in the park. If you are interested, you can ask about those <input type="text" class="fill-in-blank" data-answer="activities"> at our climbing office. You'll find it conveniently <input type="text" class="fill-in-blank" data-answer="located"> between our visitor centre and gift shop.
+                         </p>
+                         <p>
+                             Now, Devils Tower is <input type="text" class="fill-in-blank" data-answer="situated"> in the picturesque Black Hills here in Wyoming. The formation itself is very <input type="text" class="fill-in-blank" data-answer="imposing">, standing at 867 feet, or 265 metres, from the base to the <input type="text" class="fill-in-blank" data-answer="summit">. To local Native Americans, this is a <input type="text" class="fill-in-blank" data-answer="significant"> site. Because of that and its striking beauty, Devils Tower was made an official national monument over a <input type="text" class="fill-in-blank" data-answer="century"> ago. Since then, it has become a popular <input type="text" class="fill-in-blank" data-answer="destination"> amongst rock climbers.
+                         </p>
+                         <p>
+                             So how did the rock formation get its unusual <input type="text" class="fill-in-blank" data-answer="name">? You might think it's because it can be <input type="text" class="fill-in-blank" data-answer="dangerous"> to hike up or climb. Actually, explorer Colonel Richard Irving led an <input type="text" class="fill-in-blank" data-answer="expedition"> to the area in 1875. His interpreter is said to have made an <input type="text" class="fill-in-blank" data-answer="error"> translating the native language, and said the unusual formation was named 'Bad God's Tower.' Irving took that to mean the Devil's Tower ... but many native people say that the formation was probably <input type="text" class="fill-in-blank" data-answer="originally"> called 'Bear Tower' or 'Bear's Lodge.'
+                         </p>
+                         <p>
+                             Anyway, what are we all going to see and do at the park today? First, we are going to take a short hike up to a <input type="text" class="fill-in-blank" data-answer="ridge"> that will offer you <input type="text" class="fill-in-blank" data-answer="panoramic"> views of the tower and the park. The route we will be taking is called the Joyner Ridge Trail, and it is a marked loop that's a mile and a half long. Just a few safety <input type="text" class="fill-in-blank" data-answer="reminders"> before we head out on the trail. First, please watch your step during our hike as the trail we are taking is <input type="text" class="fill-in-blank" data-answer="unpaved">. Also, please be reminded that food is only <input type="text" class="fill-in-blank" data-answer="permitted"> in specified areas that are marked with signs, and it is <input type="text" class="fill-in-blank" data-answer="vital"> that you do not feed animals you may encounter in the park.
+                         </p>
+                         <p>
+                             After our hike, I'll take you to the visitor centre where you can check out our <input type="text" class="fill-in-blank" data-answer="displays"> and browse through souvenirs in our gift shop.
+                         </p>
+                         <p>
+                             OK. So, could you all please come this way?
+                         </p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <div id="dictation-ch1-hp12-16" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                 <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP12-16</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP12-16.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                         <p><span class="speaker">M:</span> Hello, Laura. Do you have a minute?</p>
+                         <p><span class="speaker">W:</span> Sure, John. What's up?</p>
+                         <p><span class="speaker">M:</span> I've been <input type="text" class="fill-in-blank" data-answer="considering"> enrolling in the study abroad <input type="text" class="fill-in-blank" data-answer="programme"> in Singapore for psychology that you <input type="text" class="fill-in-blank" data-answer="completed"> last term. But I'm still <input type="text" class="fill-in-blank" data-answer="unsure"> of some things.</p>
+                         <p><span class="speaker">W:</span> What things in particular?</p>
+                         <p><span class="speaker">M:</span> Well, I couldn't find much <input type="text" class="fill-in-blank" data-answer="information"> on the application process. What was it like?</p>
+                         <p><span class="speaker">W:</span> Actually, it was a bit too <input type="text" class="fill-in-blank" data-answer="complicated">. There are a lot of steps to complete.</p>
+                         <p><span class="speaker">M:</span> I see. And what did you think about the <input type="text" class="fill-in-blank" data-answer="lectures"> there?</p>
+                         <p><span class="speaker">W:</span> They were <input type="text" class="fill-in-blank" data-answer="excellent">. I found all of them very <input type="text" class="fill-in-blank" data-answer="informative"> and insightful.</p>
+                         <p><span class="speaker">M:</span> And the lecturers themselves?</p>
+                         <p><span class="speaker">W:</span> They are all <input type="text" class="fill-in-blank" data-answer="experts"> in their areas. A few of them are even published <input type="text" class="fill-in-blank" data-answer="authors">. Especially the professor of my <input type="text" class="fill-in-blank" data-answer="psychometrics"> course, he was terrific. It was because of him that I chose the topic of psychometrics for my senior year <input type="text" class="fill-in-blank" data-answer="thesis">.</p>
+                         <p><span class="speaker">M:</span> Oh, that sounds rather <input type="text" class="fill-in-blank" data-answer="challenging">!</p>
+                         <p><span class="speaker">W:</span> Not at all. I was <input type="text" class="fill-in-blank" data-answer="intimidated"> by the subject at first, but I didn't find it overly complicated as it was just an <input type="text" class="fill-in-blank" data-answer="introductory"> course. I'd definitely <input type="text" class="fill-in-blank" data-answer="recommend"> taking that one.</p>
+                         <p><span class="speaker">M:</span> I see. Which other courses do you recommend?</p>
+                         <p><span class="speaker">W:</span> I know that you're focusing your studies on <input type="text" class="fill-in-blank" data-answer="counselling">, so you should take the adult counselling course that is <input type="text" class="fill-in-blank" data-answer="offered"> as well.</p>
+                         <p><span class="speaker">M:</span> Yes, that would be good. Were there quite a lot of <input type="text" class="fill-in-blank" data-answer="assignments"> or requirements for each class?</p>
+                         <p><span class="speaker">W:</span> A fair amount. But instead of a long final paper, most of the classes I took <input type="text" class="fill-in-blank" data-answer="concluded"> with a final <input type="text" class="fill-in-blank" data-answer="test">.</p>
+                         <p><span class="speaker">M:</span> Hmm... That sounds tough. Are there many <input type="text" class="fill-in-blank" data-answer="differences"> between studying there and in the UK?</p>
+                         <p><span class="speaker">W:</span> Definitely. The type of psychology they teach is very similar to <input type="text" class="fill-in-blank" data-answer="statistics">, lots of numbers, data and stuff like that. Far less of the <input type="text" class="fill-in-blank" data-answer="theory"> and discussion we had in the UK and more science based work, so it's a different sort of challenge. But it <input type="text" class="fill-in-blank" data-answer="appealed"> to me, that's why I chose psychometrics...</p>
+                         <p><span class="speaker">M:</span> Oh, that makes sense. I'm actually hoping to take some data <input type="text" class="fill-in-blank" data-answer="analysis"> courses if I take part in the programme too. It would help with my minor in <input type="text" class="fill-in-blank" data-answer="psycholinguistics">.</p>
+                         <p><span class="speaker">W:</span> Speaking of which, I have some information about data courses in Singapore. Let's head to...</p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-hp17-20" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP17-20</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP17-20.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                        <p><span class="speaker">W:</span> Erm... Professor Brown, I'm hoping to <input type="text" class="fill-in-blank" data-answer="participate"> in the National Car Technology Competition.</p>
+                         <p><span class="speaker">M:</span> Certainly, Alice. The idea <input type="text" class="fill-in-blank" data-answer="submission"> deadline is next Thursday, though. Do you already have an idea in mind?</p>
+                         <p><span class="speaker">W:</span> Oh, I have a couple of ideas. One is for a <input type="text" class="fill-in-blank" data-answer="biometric"> access system. This would allow only particular users to unlock, start, and drive the vehicle by using <input type="text" class="fill-in-blank" data-answer="sensors">.</p>
+                         <p><span class="speaker">M:</span> Interesting idea. How would that work exactly?</p>
+                         <p><span class="speaker">W:</span> Well, it would require the use of a <input type="text" class="fill-in-blank" data-answer="scanner"> to access the vehicle and interior sensors to scan the eyes of drivers for <input type="text" class="fill-in-blank" data-answer="retinal"> confirmation. Drivers would place a thumb on the outdoor scanner to unlock the vehicle, and the retinal sensor would allow them to turn on the <input type="text" class="fill-in-blank" data-answer="ignition">.</p>
+                         <p><span class="speaker">M:</span> That might be complicated, do you have any ideas on how that sensor might work?</p>
+                         <p><span class="speaker">W:</span> I was thinking about <input type="text" class="fill-in-blank" data-answer="embedding"> it in the rear view mirror. The driver would simply look into the mirror, and the sensor would scan their retina. If the person is <input type="text" class="fill-in-blank" data-answer="authorized"> to use the vehicle, the ignition would automatically turn on.</p>
+                         <p><span class="speaker">M:</span> Sounds impressive. I think you should go ahead with that idea. Is there anything else you need help with?</p>
+                         <p><span class="speaker">W:</span> Well, actually, the entrance fee is higher than I expected.</p>
+                         <p><span class="speaker">M:</span> Oh, there actually is a <input type="text" class="fill-in-blank" data-answer="sponsorship"> from the university that you may be <input type="text" class="fill-in-blank" data-answer="eligible"> for – and as far as I know, you'll be able to do that – then the cost of $200 for entering the competition would be <input type="text" class="fill-in-blank" data-answer="lifted">. And of course, you'd be able to use <input type="text" class="fill-in-blank" data-answer="materials"> for the project at our lab <input type="text" class="fill-in-blank" data-answer="facilities">. You can pick up a form to apply for the sponsorship at the academic office.</p>
+                         <p><span class="speaker">W:</span> Excellent! And what is required for the application?</p>
+                         <p><span class="speaker">M:</span> You'll first need to submit a <input type="text" class="fill-in-blank" data-answer="proposal"> no longer than one page to the <input type="text" class="fill-in-blank" data-answer="dean"> of the engineering college by this Wednesday. If he thinks your idea is <input type="text" class="fill-in-blank" data-answer="intriguing"> enough, then he'll meet with you in person to discuss some additional <input type="text" class="fill-in-blank" data-answer="details"> about it.</p>
+                         <p><span class="speaker">W:</span> All right. I suppose I ought to get started on typing my proposal, then.</p>
+                         <p><span class="speaker">M:</span> Oh, and for your reference, the proposal must include a rough <input type="text" class="fill-in-blank" data-answer="design"> or sketch of your idea; otherwise the dean won't accept it. It's a very particular requirement, but it's because he prefers to look at papers with <input type="text" class="fill-in-blank" data-answer="graphical"> information. The proposal can be <input type="text" class="fill-in-blank" data-answer="structured"> as you like and in any file <input type="text" class="fill-in-blank" data-answer="format">. And you can list <input type="text" class="fill-in-blank" data-answer="references"> any way you want as well.</p>
+                         <p><span class="speaker">W:</span> That's exactly what I was going to enquire about next. Actually, would you have some time to meet either today or Tuesday to provide me with some <input type="text" class="fill-in-blank" data-answer="guidance"> on how to <input type="text" class="fill-in-blank" data-answer="draft"> the proposal?</p>
+                         <p><span class="speaker">M:</span> Certainly. I'll be <input type="text" class="fill-in-blank" data-answer="available"> at my office after 4pm this Tuesday. See you then?</p>
+                         <p><span class="speaker">W:</span> Great, I'll come by your office at 4.30 on Tuesday. Thanks.</p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-hp21-25" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HP21-25</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HP21-25.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                         <p>
+                             So, as we discussed last time, sugar is the <input type="text" class="fill-in-blank" data-answer="culprit"> for a variety of ailments. Not only is it an <input type="text" class="fill-in-blank" data-answer="addictive"> substance, but it is a direct cause for <input type="text" class="fill-in-blank" data-answer="diabetes">, the rates of which have never been higher. In addition to that, it also contributes to heart disease, <input type="text" class="fill-in-blank" data-answer="obesity">, and mood disorders. And those health issues are also rising at an alarming rate. The problem is that people are <input type="text" class="fill-in-blank" data-answer="consuming"> more sugar than we even realise. So, how can we reduce our <input type="text" class="fill-in-blank" data-answer="intake"> and avoid a variety of health issues?
+                         </p>
+                         <p>
+                             Well, first, it is important to read through <input type="text" class="fill-in-blank" data-answer="ingredients"> on manufactured products. And be aware that sugar has different names; <input type="text" class="fill-in-blank" data-answer="sucrose">, glucose, and fructose, just to name a few. So, when advising patients, it is naturally best to tell them to avoid products with added sugar. And use sweeteners that are as <input type="text" class="fill-in-blank" data-answer="natural"> as possible and stay away from <input type="text" class="fill-in-blank" data-answer="processed"> sugar. Something like honey provides sweetness, and is better for <input type="text" class="fill-in-blank" data-answer="digestion"> than refined sugar, as it allows <input type="text" class="fill-in-blank" data-answer="nutrients"> to be absorbed more easily. It also contains fewer empty <input type="text" class="fill-in-blank" data-answer="calories"> than sugar. If the taste of honey is too diverse and processed sugar is preferred, then it is better to use it in its <input type="text" class="fill-in-blank" data-answer="raw"> state, such as brown sugar, while common white table sugar should be <input type="text" class="fill-in-blank" data-answer="eliminated">.
+                         </p>
+                         <p>
+                             And it's also important to not drink sugars. People don't realise the enormous sugar content in a soft drink, and even fruit <input type="text" class="fill-in-blank" data-answer="juices"> have a very high <input type="text" class="fill-in-blank" data-answer="concentration"> of sugar as well as high caloric intake. <input type="text" class="fill-in-blank" data-answer="Water">, of course, is the number one <input type="text" class="fill-in-blank" data-answer="fluid"> we should consume. But I believe herbal <input type="text" class="fill-in-blank" data-answer="teas"> are another great option, because they give you some flavour, and they can offer extra <input type="text" class="fill-in-blank" data-answer="vitamins"> that are good for us.
+                         </p>
+                         <p>
+                             Another thing to avoid is manufactured food products that are labelled '<input type="text" class="fill-in-blank" data-answer="fat-free">'. Often, to make up for the <input type="text" class="fill-in-blank" data-answer="flavour"> from missing fat, sugar is added. Just for one example, it is better to use real <input type="text" class="fill-in-blank" data-answer="cream"> in your coffee rather than a fat-free substitute. And likewise, urge people to avoid products that are said to be '<input type="text" class="fill-in-blank" data-answer="sugar-free">' as they usually contain chemical sugar <input type="text" class="fill-in-blank" data-answer="substitutes">, which can actually be more <input type="text" class="fill-in-blank" data-answer="harmful"> than processed sugar.
+                         </p>
+                         <p>
+                             Most dietary experts agree that the best thing people can do is get the sweetness they want through <input type="text" class="fill-in-blank" data-answer="natural"> sources, rather than sweets or sugarless alternatives with chemicals. Get it through <input type="text" class="fill-in-blank" data-answer="fruits"> and vegetables, above all. They are a much better source of natural sugar, and they also contain <input type="text" class="fill-in-blank" data-answer="essential"> vitamins your body needs. That's the best way to get the sweetness your appetite may want. But you can also eat yoghurt...
+                         </p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-ht1-10" class="dictation-exercise-content">
+                 <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HT1-10</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HT1-10.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                         <p>
+                              I'm pleased that you've all <input type="text" class="fill-in-blank" data-answer="gathered"> here for this public meeting at Brighton City <input type="text" class="fill-in-blank" data-answer="Hall"> today. I know that many of you are <input type="text" class="fill-in-blank" data-answer="excited"> to hear details about this weekend's <input type="text" class="fill-in-blank" data-answer="opening"> of the Brighton Sports Complex. So, I've asked Shane Downs, the <input type="text" class="fill-in-blank" data-answer="head"> of the committee that has been <input type="text" class="fill-in-blank" data-answer="overseeing"> the development of the complex, to <input type="text" class="fill-in-blank" data-answer="share"> that information with you. Shane. Thank you. As many of you are <input type="text" class="fill-in-blank" data-answer="already"> aware, the Brighton Sports Complex will be the <input type="text" class="fill-in-blank" data-answer="largest"> athletic stadium our city has ever <input type="text" class="fill-in-blank" data-answer="seen">, serving primarily as the venue for national <input type="text" class="fill-in-blank" data-answer="tennis"> matches. I'm speaking today on behalf of the <input type="text" class="fill-in-blank" data-answer="entire"> committee that helped get the project <input type="text" class="fill-in-blank" data-answer="started">. I'm happy to say to all city <input type="text" class="fill-in-blank" data-answer="council"> members here with us today that we stayed well under our <input type="text" class="fill-in-blank" data-answer="budget">.
+                         </p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="dictation-ch1-ht11-20" class="dictation-exercise-content">
+                <button class="mb-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="showDictationList('dictation1')">&larr; Quay lại danh sách</button>
+                <div class="question-card">
+                     <h3 class="question-header">Dictation Exercise: CH1_HT11-20</h3>
+                     <audio controls class="w-full mb-4"><source src="CH1_HT11-20.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+                     <p class="question-instruction">Listen and fill in the blanks. Each blank is for one word.</p>
+                     <div class="space-y-4 text-lg leading-loose">
+                         <p>
+                              Thanks for stopping by my <input type="text" class="fill-in-blank" data-answer="office">, Catherine and Matthew. So, how are you <input type="text" class="fill-in-blank" data-answer="both"> doing on the project about <input type="text" class="fill-in-blank" data-answer="globalized"> marketing in business? I think everything's going <input type="text" class="fill-in-blank" data-answer="smoothly"> so far. We have finished our <input type="text" class="fill-in-blank" data-answer="outline"> for the structure of the report, and I've just <input type="text" class="fill-in-blank" data-answer="finished"> our introduction. And I've been <input type="text" class="fill-in-blank" data-answer="doing"> the research for the main <input type="text" class="fill-in-blank" data-answer="body">. Yes, we've started doing <input type="text" class="fill-in-blank" data-answer="research"> online about specific globalized <input type="text" class="fill-in-blank" data-answer="companies">. So when we finish that, we can <input type="text" class="fill-in-blank" data-answer="begin"> work on writing the main body of the <input type="text" class="fill-in-blank" data-answer="report">. Well, what companies have you <input type="text" class="fill-in-blank" data-answer="focused"> on already, Catherine? I've discovered some <input type="text" class="fill-in-blank" data-answer="information"> about globalized fast-food <input type="text" class="fill-in-blank" data-answer="businesses">.
+                         </p>
+                      </div>
+                      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors" onclick="checkAnswers(this)">Nộp bài</button>
+                     <div class="results mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showChapters() {
+            document.getElementById('page-selection').style.display = 'none';
+            document.getElementById('chapter-selection').style.display = 'block';
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+
+        function showPage(pageId) {
+            document.getElementById('page-selection').style.display = 'none';
+            document.getElementById('chapter-selection').style.display = 'none';
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            const pageToShow = document.getElementById(pageId);
+            pageToShow.style.display = 'block';
+
+            if (pageId.startsWith('dictation')) {
+                showDictationList(pageId);
+            }
+        }
+
+        function showHome() {
+            document.getElementById('page-selection').style.display = 'block';
+            document.getElementById('chapter-selection').style.display = 'none';
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+        }
+
+        function showDictationExercise(exerciseId) {
+            const exercise = document.getElementById(exerciseId);
+            const parentPage = exercise.closest('.page-content');
+            
+            parentPage.querySelector('div[id$="-list"]').style.display = 'none';
+
+            exercise.style.display = 'block';
+        }
+
+        function showDictationList(pageId) {
+            const page = document.getElementById(pageId);
+
+            page.querySelectorAll('.dictation-exercise-content').forEach(ex => {
+                ex.style.display = 'none';
+            });
+            
+            const list = page.querySelector('div[id$="-list"]');
+            if (list) {
+                list.style.display = 'block';
+            }
+        }
+        
+        function checkAnswers(button) {
+            const exerciseCard = button.closest('.question-card');
+            const inputs = exerciseCard.querySelectorAll('.fill-in-blank');
+            const resultsContainer = exerciseCard.querySelector('.results');
+            const exerciseTitle = exerciseCard.querySelector('h3.question-header').textContent.trim();
+            
+            let score = 0;
+            const total = inputs.length;
+            const excelData = [];
+
+            inputs.forEach((input, index) => {
+                const userAnswer = input.value.trim();
+                const correctAnswer = input.dataset.answer;
+
+                input.classList.remove('border-green-500', 'border-red-500', 'border-2', 'border-gray-300');
+                
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    score++;
+                    input.classList.add('border-green-500', 'border-2');
+                } else {
+                    input.classList.add('border-red-500', 'border-2');
+                }
+                
+                excelData.push({
+                    'STT': index + 1,
+                    'Câu trả lời của bạn': userAnswer,
+                    'Đáp án đúng': correctAnswer
+                });
+            });
+
+            // Clear previous results and create new elements
+            resultsContainer.innerHTML = '';
+            
+            const container = document.createElement('div');
+            container.className = 'mt-4 flex flex-col sm:flex-row items-center justify-center gap-4';
+
+            const resultText = document.createElement('p');
+            resultText.className = "text-lg font-semibold";
+            resultText.textContent = `Kết quả: Bạn đã đúng ${score}/${total} câu.`;
+
+            const exportButton = document.createElement('button');
+            exportButton.className = "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
+            exportButton.textContent = "Xuất Excel";
+            
+            exportButton.onclick = function() {
+                try {
+                    const worksheet = XLSX.utils.json_to_sheet(excelData);
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, "Kết quả Dictation");
+
+                    // Auto-fit columns
+                    const objectMaxLength = [];
+                    excelData.forEach(obj => {
+                        Object.keys(obj).forEach((key, i) => {
+                            const value = obj[key] ? obj[key].toString() : '';
+                            let headerLength = key.length;
+                            let valueLength = value.length;
+
+                            if (!objectMaxLength[i] || objectMaxLength[i] < headerLength) {
+                                objectMaxLength[i] = headerLength;
+                            }
+                            if (objectMaxLength[i] < valueLength) {
+                                objectMaxLength[i] = valueLength;
+                            }
+                        });
+                    });
+                    worksheet["!cols"] = objectMaxLength.map(w => ({ wch: w + 2 }));
+
+                    const safeFileName = exerciseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    XLSX.writeFile(workbook, `ket_qua_${safeFileName}.xlsx`);
+
+                } catch (err) {
+                    console.error("Error creating Excel file:", err);
+                    alert("Không thể tạo file Excel. Vui lòng thử lại trên trình duyệt khác.");
+                }
+            };
+
+            container.appendChild(resultText);
+            container.appendChild(exportButton);
+            resultsContainer.appendChild(container);
+            resultsContainer.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
+
