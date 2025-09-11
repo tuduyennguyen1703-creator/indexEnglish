@@ -71,6 +71,11 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             z-index: 100;
         }
+        /* Style for disabled button */
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8">
@@ -83,14 +88,14 @@
         
         <div id="page-selection" style="display: block;" class="relative pb-24">
             <h2 class="text-2xl font-bold text-center mb-8 text-gray-700">Chọn Mục Luyện Tập</h2>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-8">
+            <div class="flex flex-col items-center gap-8">
                 <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showChapters()">
                     <h3 class="text-2xl font-bold text-green-700 mb-2">HACKER IELTS Listening Book</h3>
                     <p class="text-gray-600">Bắt đầu làm bài tập nghe</p>
                 </div>
                  <div class="main-card bg-white rounded-xl p-8 cursor-pointer text-center w-full sm:w-2/3 md:w-1/2" onclick="showPage('vocab-test-page')">
-                    <h3 class="text-2xl font-bold text-yellow-700 mb-2">Kiểm Tra Từ Vựng</h3>
-                    <p class="text-gray-600">Làm bài kiểm tra từ vựng ngẫu nhiên</p>
+                    <h3 class="text-2xl font-bold text-yellow-700 mb-2">Kiểm Tra Từ Vựng K3</h3>
+                    <p class="text-gray-600"> IELTS K3</p>
                 </div>
             </div>
              <img src="anh/Thang 9.1.jpg" alt="Fun character" class="absolute bottom-0 left-0 w-40 transform rotate-0 hidden sm:block pointer-events-none">
@@ -120,9 +125,13 @@
             </button>
             <div id="vocab-start-container" class="text-center">
                 <h2 class="text-2xl font-bold mb-4 text-gray-700">Bài Kiểm Tra Từ Vựng</h2>
-                <p class="mb-6 text-gray-600">Bạn sẽ có <b>20 phút</b> để hoàn thành <b>150 câu hỏi</b> ngẫu nhiên.</p>
+                <div class="max-w-sm mx-auto mb-6">
+                    <label for="studentName" class="block text-lg font-medium text-gray-700 mb-2">Vui lòng nhập Họ và Tên</label>
+                    <input type="text" id="studentName" oninput="validateName()" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nguyễn Văn A">
+                </div>
+                <p class="mb-6 text-gray-600">Bạn sẽ có <b>20 phút</b> để hoàn thành <b>100 câu hỏi</b> ngẫu nhiên.</p>
                 <p class="mb-8 text-gray-600">Nhấn nút bên dưới để bắt đầu. Đồng hồ sẽ bắt đầu đếm ngược ngay lập tức.</p>
-                <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors" onclick="startVocabTest()">Bắt Đầu Kiểm Tra</button>
+                <button id="start-vocab-btn" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors" onclick="startVocabTest()" disabled>Bắt Đầu Kiểm Tra</button>
             </div>
             <div id="vocab-quiz-container" class="hidden">
                  <div id="vocab-timer">20:00</div>
@@ -1004,6 +1013,7 @@
 
         let vocabTimerInterval;
         let currentVocabTest = [];
+        let studentName = '';
 
         // --- NAVIGATION FUNCTIONS ---
         function showHome() {
@@ -1089,16 +1099,10 @@
             });
 
             resultsContainer.innerHTML = '';
+            const { resultText, exportButton } = createResultActions(excelData, `Kết quả: Bạn đã đúng ${score}/${total} câu.`, `ket_qua_${exerciseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`);
             
             const container = document.createElement('div');
             container.className = 'mt-4 flex flex-col sm:flex-row items-center justify-center gap-4';
-
-            const resultText = document.createElement('p');
-            resultText.className = "text-lg font-semibold";
-            resultText.textContent = `Kết quả: Bạn đã đúng ${score}/${total} câu.`;
-
-            const exportButton = createExportButton(excelData, `ket_qua_${exerciseTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`);
-            
             container.appendChild(resultText);
             container.appendChild(exportButton);
             resultsContainer.appendChild(container);
@@ -1106,6 +1110,16 @@
         }
         
         // --- VOCABULARY TEST FUNCTIONS ---
+        function validateName() {
+            const nameInput = document.getElementById('studentName');
+            const startButton = document.getElementById('start-vocab-btn');
+            if (nameInput.value.trim() !== '') {
+                startButton.disabled = false;
+            } else {
+                startButton.disabled = true;
+            }
+        }
+
         function startVocabTimer(duration, display) {
             let timer = duration, minutes, seconds;
             vocabTimerInterval = setInterval(function () {
@@ -1126,11 +1140,17 @@
         }
 
         function startVocabTest() {
+            studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert("Vui lòng nhập họ và tên trước khi bắt đầu!");
+                return;
+            }
+
             document.getElementById('vocab-start-container').classList.add('hidden');
             document.getElementById('vocab-quiz-container').classList.remove('hidden');
 
             const shuffled = [...vocabularyList].sort(() => 0.5 - Math.random());
-            currentVocabTest = shuffled.slice(0, 150);
+            currentVocabTest = shuffled.slice(0, 100);
 
             const questionsContainer = document.getElementById('vocab-questions');
             questionsContainer.innerHTML = '';
@@ -1166,28 +1186,26 @@
             const total = currentVocabTest.length;
             const excelData = [];
 
-            inputs.forEach((input, index) => {
+            // First pass: determine correctness for all inputs
+            inputs.forEach((input) => {
                 const userAnswer = input.value.trim();
-                if (!userAnswer) { // Handle empty answers
-                    input.dataset.isCorrect = 'false';
-                    return;
-                }
-
                 const wordId = parseInt(input.dataset.wordId);
                 const correctItem = vocabularyList.find(item => item.id === wordId);
                 const correctAnswers = correctItem.meaning.split(/[,;/]/).map(s => s.trim().replace(/[()]/g, ''));
 
                 let isCorrect = false;
-                for (const answer of correctAnswers) {
-                    if (isAnswerSimilar(userAnswer, answer)) {
-                        isCorrect = true;
-                        break;
+                if(userAnswer){ // Only check if answer is not empty
+                    for (const answer of correctAnswers) {
+                        if (isAnswerSimilar(userAnswer, answer)) {
+                            isCorrect = true;
+                            break;
+                        }
                     }
                 }
                 input.dataset.isCorrect = isCorrect;
             });
 
-
+            // Second pass: build results HTML and data
             inputs.forEach((input, index) => {
                 const wordId = parseInt(input.dataset.wordId);
                 const correctItem = vocabularyList.find(item => item.id === wordId);
@@ -1197,22 +1215,20 @@
                 if (isCorrect) {
                     score++;
                     resultHTML = `
-                        <div class="p-3 rounded-lg bg-green-100 border border-green-300 flex flex-col sm:flex-row gap-2">
-                           <p class="w-full"><b>${index + 1}. ${correctItem.word}:</b> <span class="text-green-700">${input.value} (Đúng)</span></p>
+                        <div class="p-3 rounded-lg bg-green-100 border border-green-300">
+                           <p><b>${index + 1}. ${correctItem.word}:</b> <span class="text-green-700">${input.value} (Đúng)</span></p>
                         </div>
                     `;
                 } else {
                      resultHTML = `
-                        <div class="p-3 rounded-lg bg-red-100 border border-red-300 flex flex-col sm:flex-row gap-2">
-                            <div class="w-full">
-                               <p><b>${index + 1}. ${correctItem.word}:</b> <span class="text-red-700 line-through">${input.value || "<i>(bỏ trống)</i>"}</span></p>
-                               <p class="text-sm text-gray-600"><b>Đáp án đúng:</b> ${correctItem.meaning}</p>
-                            </div>
+                        <div class="p-3 rounded-lg bg-red-100 border border-red-300">
+                           <p><b>${index + 1}. ${correctItem.word}:</b> <span class="text-red-700 line-through">${input.value || "<i>(bỏ trống)</i>"}</span></p>
+                           <p class="text-sm text-gray-600"><b>Đáp án đúng:</b> ${correctItem.meaning}</p>
                         </div>
                     `;
                 }
 
-                resultsContainer.innerHTML += resultHTML;
+                resultsContainer.innerHTML += `<div class="mb-2">${resultHTML}</div>`;
                  excelData.push({
                     'STT': index + 1,
                     'Từ vựng': correctItem.word,
@@ -1226,41 +1242,56 @@
             const summaryContainer = document.createElement('div');
             summaryContainer.className = 'my-6 p-6 bg-blue-100 rounded-lg text-center';
 
-            const resultText = document.createElement('p');
-            resultText.className = "text-2xl font-bold text-blue-800";
-            resultText.innerHTML = `Kết quả: Bạn đã đúng <span class="text-green-600">${score}</span>/<span class="text-red-600">${total}</span> câu.`;
-            
-            const exportButton = createExportButton(excelData, 'ket_qua_kiem_tra_tu_vung');
-            exportButton.className = "mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
+            const nameText = document.createElement('p');
+            nameText.className = "text-xl font-semibold text-blue-900";
+            nameText.textContent = `Họ và Tên: ${studentName}`;
 
+            const resultText = document.createElement('p');
+            resultText.className = "text-2xl font-bold text-blue-800 mt-2";
+            resultText.innerHTML = `Kết quả: <span class="text-green-600">${score}</span>/<span class="text-red-600">${total}</span> câu đúng.`;
+            
+            // Create action buttons
+            const actionContainer = document.createElement('div');
+            actionContainer.className = 'mt-4 flex flex-col sm:flex-row justify-center items-center gap-4';
+
+            const safeName = studentName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+            const { exportButton, copyButton } = createResultActions(excelData, `ket_qua_${safeName}`);
+            
+            actionContainer.appendChild(exportButton);
+            actionContainer.appendChild(copyButton);
+
+            summaryContainer.appendChild(nameText);
             summaryContainer.appendChild(resultText);
-            summaryContainer.appendChild(exportButton);
+            summaryContainer.appendChild(actionContainer);
             resultsContainer.insertAdjacentElement('afterbegin', summaryContainer);
         }
 
         // --- UTILITY FUNCTIONS ---
-        function createExportButton(data, filename) {
+        function createResultActions(data, filename) {
              const exportButton = document.createElement('button');
              exportButton.className = "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors";
              exportButton.textContent = "Xuất Excel";
              
              exportButton.onclick = function() {
                  try {
-                     const worksheet = XLSX.utils.json_to_sheet(data);
+                     const dataToExport = [...data];
+                     // Add student name to the top of the sheet data
+                     dataToExport.unshift({ 'STT': 'Họ và Tên', 'Từ vựng': studentName });
+                     dataToExport.unshift({ 'STT': '' }); // Add a blank row for spacing
+
+                     const worksheet = XLSX.utils.json_to_sheet(dataToExport, { skipHeader: true });
+                     // Manually add headers
+                     XLSX.utils.sheet_add_aoa(worksheet, [['STT', 'Từ vựng', 'Câu trả lời của bạn', 'Đáp án đúng', 'Kết quả']], { origin: 'A3' });
+
                      const workbook = XLSX.utils.book_new();
                      XLSX.utils.book_append_sheet(workbook, worksheet, "Kết quả");
 
                      const objectMaxLength = [];
-                     data.forEach(obj => {
-                         Object.keys(obj).forEach((key, i) => {
-                             const value = obj[key] ? obj[key].toString() : '';
-                             let headerLength = key.length;
-                             let valueLength = value.length;
-                             if (!objectMaxLength[i] || objectMaxLength[i] < headerLength) {
-                                 objectMaxLength[i] = headerLength;
-                             }
-                             if (objectMaxLength[i] < valueLength) {
-                                 objectMaxLength[i] = valueLength;
+                     dataToExport.forEach(obj => {
+                         Object.values(obj).forEach((value, i) => {
+                             const len = value ? value.toString().length : 0;
+                             if (!objectMaxLength[i] || objectMaxLength[i] < len) {
+                                 objectMaxLength[i] = len;
                              }
                          });
                      });
@@ -1270,10 +1301,45 @@
 
                  } catch (err) {
                      console.error("Error creating Excel file:", err);
-                     alert("Không thể tạo file Excel. Vui lòng thử lại trên trình duyệt khác.");
+                     alert("Không thể tạo file Excel.");
                  }
              };
-             return exportButton;
+
+             const copyButton = document.createElement('button');
+             copyButton.className = "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors";
+             copyButton.textContent = "Copy cho Google Sheet";
+             const instruction = document.createElement('p');
+             instruction.className = "text-xs text-gray-500 mt-1";
+             instruction.textContent = "(Dán vào Sheet trống)";
+             copyButton.appendChild(instruction);
+
+
+             copyButton.onclick = function() {
+                const headers = Object.keys(data[0]);
+                let tsvContent = headers.join('\t') + '\n'; // Create header row
+                
+                // Add student name info
+                tsvContent = `Họ và Tên\t${studentName}\n\n` + tsvContent;
+
+                data.forEach(row => {
+                    const values = headers.map(header => {
+                        return (row[header] || '').toString().replace(/\t/g, ' '); // a simple replace to avoid breaking TSV
+                    });
+                    tsvContent += values.join('\t') + '\n';
+                });
+
+                navigator.clipboard.writeText(tsvContent).then(() => {
+                    copyButton.textContent = 'Đã sao chép!';
+                    setTimeout(() => {
+                        copyButton.innerHTML = 'Copy cho Google Sheet<p class="text-xs text-gray-500 mt-1">(Dán vào Sheet trống)</p>';
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Could not copy text: ", err);
+                    alert("Lỗi sao chép!");
+                });
+             }
+             
+             return { exportButton, copyButton };
         }
 
         function normalizeVietnamese(str) {
@@ -1285,6 +1351,8 @@
         }
         
         function levenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
             const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
             for (let i = 0; i <= a.length; i += 1) {
                 matrix[0][i] = i;
@@ -1309,7 +1377,7 @@
             const normalizedUser = normalizeVietnamese(userAnswer);
             const normalizedCorrect = normalizeVietnamese(correctAnswer);
 
-            // 1. Check for exact match after normalization
+            // 1. Check for exact match after normalization (handles no-accent typing)
             if (normalizedUser === normalizedCorrect) {
                 return true;
             }
